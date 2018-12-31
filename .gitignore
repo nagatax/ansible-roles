@@ -1,0 +1,4 @@
+# Serverspec files
+
+# ignore vagrant files
+.vagrant/

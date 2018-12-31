@@ -1,0 +1,4 @@
+---
+is_development: on
+apache_document_root: /vagrant/webapps/public
+apache_server_name: web.devops

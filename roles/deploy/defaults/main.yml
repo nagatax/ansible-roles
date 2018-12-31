@@ -1,0 +1,5 @@
+---
+deploy_laravel_root: /vagrant/src
+deploy_laravel_env: local
+deploy_laravel_debug: True
+deploy_laravel_app_key: seITT4CLYjZvTiwlR2aobMKqgvYn9snP
