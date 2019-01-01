@@ -1,0 +1,15 @@
+---
+- name: Dockerをインストール
+  yum:
+    name: ['docker', 'net-tools']
+    state: present
+  tags:
+    - docker
+
+- name: Dockerを起動、自動起動を有効化
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  tags:
+    - docker

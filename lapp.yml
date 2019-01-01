@@ -13,3 +13,8 @@
 - host: web
   roles:
     - deploy
+
+- hosts: web
+  become: yes
+  roles:
+    - docker
