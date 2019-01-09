@@ -7,7 +7,11 @@
 
 - name: 基本パッケージをインストール
   yum:
-    name: ['vim', 'git', 'ntp']
+    name:
+      - vim
+      - git
+      - ntp
+      - unzip
     state: present
 
 - name: ntpdを起動、自動起動の有効化

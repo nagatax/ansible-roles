@@ -7,12 +7,22 @@
 - hosts: web
   become: yes
   roles:
+    - yarn
+
+- hosts: web
+  become: yes
+  roles:
     - apache
     - php
 
-- host: web
+- hosts: web
+  become: yes
   roles:
-    - deploy
+    - laravel_setup
+
+#- host: web
+#  roles:
+#    - deploy
 
 - hosts: web
   become: yes
