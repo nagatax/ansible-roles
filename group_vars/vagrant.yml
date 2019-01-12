@@ -1,7 +1,7 @@
 ---
 ansible_ssh_user: vagrant
 ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
-is_development: True
+is_development: true
 
 # for laravel and apache
 deploy_laravel_root: /vagrant/src
