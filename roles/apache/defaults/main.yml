@@ -4,5 +4,5 @@ is_development: true
 
 # Apacheのドキュメントルート
 # Virtual Hostで実装
-apache_document_root: /vagrant/webapp/public
+apache_document_root: /var/www/html/laravelapp/public
 apache_server_name: web.devops
