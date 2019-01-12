@@ -1,4 +1,8 @@
 ---
+##################################################
+# 変数のデフォルト値を定義する
+##################################################
+
 deploy_laravel_root: /vagrant/src
 deploy_laravel_env: local
 deploy_laravel_debug: True
