@@ -1,4 +1,8 @@
 ---
-is_development: on
-apache_document_root: /vagrant/webapps/public
+# 開発モード
+is_development: true
+
+# Apacheのドキュメントルート
+# Virtual Hostで実装
+apache_document_root: /vagrant/webapp/public
 apache_server_name: web.devops
