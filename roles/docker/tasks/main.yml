@@ -5,7 +5,9 @@
 
 - name: Dockerをインストール
   yum:
-    name: ['docker', 'net-tools']
+    name:
+      - docker
+      - net-tools
     state: present
   tags:
     - docker
