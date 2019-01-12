@@ -28,3 +28,8 @@
   become: yes
   roles:
     - docker
+
+- hosts: web
+  become: yes
+  roles:
+    - mariadb

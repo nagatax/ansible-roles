@@ -1,0 +1,30 @@
+---
+- name: MariaDBをインストール
+  yum:
+    name:
+      - mariadb
+      - mariadb-server
+      - MySQL-python
+    state: present
+  tags:
+    - mariadb
+
+- name: my.cnfテンプレートを転送
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - mariadb
+  notify:
+    - MariaDBを再起動
+
+- name: MariaDBのサービスの有効化
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+  tags:
+    - mariadb
