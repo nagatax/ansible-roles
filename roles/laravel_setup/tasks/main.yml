@@ -71,3 +71,8 @@
     working_dir: /var/www/html/laravelapp
   tags:
     - laravel_setup
+
+- name: フォルダ権限の変更
+  shell: chown -R apache:apache /var/www/html/laravelapp
+  tags:
+    - laravel_setup
