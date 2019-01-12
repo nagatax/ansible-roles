@@ -20,10 +20,6 @@
   roles:
     - laravel_setup
 
-#- host: web
-#  roles:
-#    - deploy
-
 - hosts: web
   become: yes
   roles:
@@ -33,3 +29,7 @@
   become: yes
   roles:
     - mariadb
+
+#- host: web
+#  roles:
+#    - deploy
