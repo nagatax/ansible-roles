@@ -22,18 +22,19 @@
     name:
       - php
       - php-cli
-      - php-process
-      - php-pdo
-      - php-pgsql
-      - php-mbstring
-      - php-mcrypt
-      - php-devel
       - php-common
-      - php-pear
-      - php-opcache
+      - php-devel
       - php-json
+      - php-mcrypt
+      - php-mbstring
+      - php-mysqlnd
+      - php-opcache
+      - php-pdo
+      - php-pear
       - php-pecl-memcached
       - php-pecl-zip
+      - php-pgsql
+      - php-process
     state: present
     enablerepo: remi,remi-php72
   notify:
