@@ -1,17 +1,4 @@
 ---
-- name: Laravel Installerのインストール
-  composer:
-    command: require
-    global_command: yes
-    arguments: laravel/installer=~1.1
-  tags:
-    - laravel_setup
-
-#- name: pathの設定
-#  shell: echo 'export PATH=$HOME/.composer/vendor/bin:$PATH' >> ~/.bash_profile && source ~/.bash_profile
-#  tags:
-#    - laravel_setup
-
 - name: laravelがセットアップ済みか確認
   stat:
     path: /var/www/html/laravelapp
@@ -20,6 +7,20 @@
   register: is_laravel_folder
   tags:
     - laravel_setup
+
+- name: Laravel Installerのインストール
+  composer:
+    command: require
+    global_command: yes
+    arguments: laravel/installer=~1.1
+  when: is_laravel_folder.stat.exists == False
+  tags:
+    - laravel_setup
+
+#- name: pathの設定
+#  shell: echo 'export PATH=$HOME/.composer/vendor/bin:$PATH' >> ~/.bash_profile && source ~/.bash_profile
+#  tags:
+#    - laravel_setup
 
 - name: laravelのセットアップ
   shell: cd /var/www/html \
