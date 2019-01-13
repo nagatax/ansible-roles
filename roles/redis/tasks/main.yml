@@ -1,0 +1,27 @@
+---
+##################################################
+# 実行するタスクを定義する
+##################################################
+
+- name: EPELリポジトリをインストール
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - redis
+
+- name: Remiリポジトリをインストール
+  yum:
+    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+    state: present
+  tags:
+    - redis
+
+- name: Redisをインストール
+  yum:
+    name:
+      - redis
+    state: present
+    enablerepo: epel,remi
+  tags:
+    - redis
