@@ -1,0 +1,11 @@
+---
+##################################################
+# 実行するタスクを定義する
+##################################################
+
+- name: MailHogをインストール
+  shell: |
+    sudo wget https://github.com/mailhog/MailHog/releases/download/v1.0.0/MailHog_linux_amd64 -O /usr/local/bin/mailhog
+    sudo chmod +x /usr/local/bin/mailhog
+  tags:
+    - mailhog
