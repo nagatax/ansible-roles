@@ -1,0 +1,26 @@
+---
+##################################################
+# 実行するタスクを定義する
+##################################################
+
+- name: リポジトリをインストール
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/nginx.repo
+  tags:
+    - nginx
+
+- name: Nginxのインストール
+  yum:
+    name: nginx
+    state: present
+  tags:
+    - nginx
+
+- name: Nginxを起動、自動起動を有効化
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags:
+    - nginx
