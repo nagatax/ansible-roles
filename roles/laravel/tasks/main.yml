@@ -62,6 +62,14 @@
   tags:
     - laravel
 
+- name: Install Horizon
+  composer:
+    command: require
+    arguments: laravel/horizon
+    working_dir: /var/www/html/laravelapp
+  tags:
+    - laravel
+
 - name: Install laravel-mix
   npm:
     path: /var/www/html/laravelapp
