@@ -8,12 +8,11 @@
     name: epel-release
     state: present
   tags:
-    - php
+    - go
 
 - name: Goをインストール
   yum:
-    name:
-      - golang
+    name: golang
     state: present
   tags:
     - go
