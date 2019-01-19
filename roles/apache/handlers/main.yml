@@ -3,7 +3,7 @@
 # ハンドラを定義する
 ##################################################
 
-- name: Apacheを再起動
+- name: restart_apache
   service:
     name: httpd
     state: restarted

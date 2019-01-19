@@ -20,7 +20,7 @@
   tags:
     - apache
   notify:
-    - Apacheを再起動
+    - restart_apache
 
 - name: vhosts.confテンプレートを転送
   template:
@@ -32,7 +32,7 @@
   tags:
     - apache
   notify:
-    - Apacheを再起動
+    - restart_apache
 
 - name: Apacheを起動、自動起動を有効化
   service:
