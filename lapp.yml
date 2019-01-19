@@ -1,35 +1,32 @@
 ---
-- hosts: all
-  become: yes
+##################################################
+# 実行するロールを定義する
+##################################################
+
+- name:   Install commom packages
+  hosts:  all
+  become: yes # use sudo
   roles:
     - base
 
-- hosts: web
-  become: yes
-  roles:
-    - yarn
-
-- hosts: web
-  become: yes
+- name:   Install web group's packages
+  hosts:  web
+  become: yes # use sudo
   roles:
     - apache
-    - php
-
-- hosts: web
-  become: yes
-  roles:
-    - laravel
-
-- hosts: web
-  become: yes
-  roles:
     - docker
-
-- hosts: web
-  become: yes
-  roles:
+    - go
+    - laravel
+    - mailhog
     - mariadb
+    - memcached
+    - minio
+    - nginx
+    - php
+    - redis
+    - yarn
 
+# Deploy
 #- host: web
 #  roles:
 #    - deploy
