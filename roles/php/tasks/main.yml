@@ -21,6 +21,7 @@
   yum:
     name:
       - php
+      - php-bcmath
       - php-cli
       - php-common
       - php-devel
@@ -29,6 +30,7 @@
       - php-mbstring
       - php-mysqlnd
       - php-opcache
+      - php-openssl
       - php-pdo
       - php-pear
       - php-pecl-memcache
@@ -36,6 +38,8 @@
       - php-pecl-zip
       - php-pgsql
       - php-process
+      - php-tokenizer
+      - php-xml
     state: present
     enablerepo: remi,remi-php72
   notify:
