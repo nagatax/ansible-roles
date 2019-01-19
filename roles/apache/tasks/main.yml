@@ -3,14 +3,14 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: Apacheをインストール
+- name: Install apache
   yum:
     name: httpd
     state: present
   tags:
     - apache
 
-- name: httpd.confテンプレートを転送
+- name: Copy httpd.conf to server's directory
   template:
     src: httpd.conf.j2
     dest: /etc/httpd/conf/httpd.conf
@@ -22,7 +22,7 @@
   notify:
     - restart_apache
 
-- name: vhosts.confテンプレートを転送
+- name: Copy vhosts.conf to server's directory
   template:
     src: vhosts.conf.j2
     dest: /etc/httpd/conf.d/vhosts.conf
@@ -34,7 +34,7 @@
   notify:
     - restart_apache
 
-- name: Apacheを起動、自動起動を有効化
+- name: Start apache and Enable autostart
   service:
     name: httpd
     state: started
