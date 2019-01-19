@@ -12,10 +12,11 @@
 - name: 基本パッケージをインストール
   yum:
     name:
-      - vim
+      - curl
       - git
       - ntp
       - unzip
+      - vim
     state: present
 
 - name: ntpdを起動、自動起動の有効化
