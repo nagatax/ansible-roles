@@ -3,17 +3,16 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: EPELリポジトリをインストール
+- name: Install EPEL repogitry
   yum:
     name: epel-release
     state: present
   tags:
-    - php
+    - go
 
-- name: Goをインストール
+- name: Install Golang
   yum:
-    name:
-      - golang
+    name: golang
     state: present
   tags:
     - go

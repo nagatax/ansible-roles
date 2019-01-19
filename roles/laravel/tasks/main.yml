@@ -85,6 +85,22 @@
   tags:
     - laravel
 
+- name: Install laravel helper
+  composer:
+    command: require
+    no-dev: yes
+    arguments: barryvdh/laravel-ide-helper
+    working_dir: /var/www/html/laravelapp
+  tags:
+    - laravel
+
+- name: create helper file
+  shell: php artisan ide-helper:generate
+  args:
+    chdir: /var/www/html/laravelapp
+  tags:
+    - laravel
+
 - name: フォルダ権限の変更
   shell: chown -R apache:apache /var/www/html/laravelapp
   tags:
