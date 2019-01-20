@@ -43,7 +43,7 @@
     state: present
     enablerepo: remi,remi-php72
   notify:
-    - Apacheを再起動
+    - restart_apache
   tags:
     - php
 
@@ -52,7 +52,7 @@
     src: zzmyphp.ini
     dest: /etc/php.d/zzmyphp.ini
   notify:
-    - Apacheを再起動
+    - restart_apache
   tags:
     - php
 
