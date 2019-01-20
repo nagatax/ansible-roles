@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = "2"
 
     # Customize the amount of memory on the VM:
-    vb.memory = "2048"
+    vb.memory = "3072"
   end
 
   # The settings within config.ssh relate to configuring how Vagrant will access
