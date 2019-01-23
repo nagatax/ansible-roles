@@ -114,6 +114,15 @@
   tags:
     - laravel
 
+- name: Install predis
+  composer:
+    command: require
+    no-dev: yes
+    arguments: predis/predis
+    working_dir: /var/www/html/laravelapp
+  tags:
+    - laravel
+
 - name: フォルダ権限の変更
   shell: chown -R apache:apache /var/www/html/laravelapp
   tags:
