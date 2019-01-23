@@ -24,6 +24,7 @@
     - nginx
     - php
     - redis
+    - ruby
     - yarn
 
 # Deploy
