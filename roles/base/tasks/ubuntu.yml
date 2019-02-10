@@ -1,0 +1,34 @@
+---
+##################################################
+# 実行するタスクを定義する
+##################################################
+
+- name: ロケール設定
+  command: localectl set-locale {{ base_locale }}
+  tags:
+    - base
+
+- name: タイムゾーン設定
+  command: timedatectl set-timezone {{ base_timezone }}
+  tags:
+    - base
+
+- name: 基本パッケージをインストール
+  apt:
+    name:
+      - curl
+      - git
+      - ntp
+      - unzip
+      - vim
+    state: latest
+  tags:
+    - base
+
+- name: ntpdを起動、自動起動の有効化
+  systemd:
+    name: ntp
+    state: started
+    enabled: yes
+  tags:
+    - base

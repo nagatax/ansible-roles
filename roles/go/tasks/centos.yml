@@ -3,14 +3,16 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: CentOS用の設定
-  include: centos.yml
-  when: ansible_os_family == "RedHat"
+- name: Install EPEL repogitry
+  yum:
+    name: epel-release
+    state: latest
   tags:
     - go
 
-- name: Ubuntu用の設定
-  include: ubuntu.yml
-  when: ansible_os_family == "Debian"
+- name: Install Golang
+  yum:
+    name: golang
+    state: latest
   tags:
     - go
