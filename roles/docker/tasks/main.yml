@@ -3,26 +3,14 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: Dockerをインストール
-  yum:
-    name:
-      - docker
-      - net-tools
-    state: present
+- name: CentOS用の設定
+  include: centos.yml
+  when: ansible_os_family == "RedHat"
   tags:
     - docker
 
-- name: Dockerを起動、自動起動を有効化
-  service:
-    name: docker
-    state: started
-    enabled: yes
-  tags:
-    - docker
-
-- name: Docker Composeのインストール
-  shell: |
-    sudo wget -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
+- name: Ubuntu用の設定
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian"
   tags:
     - docker
