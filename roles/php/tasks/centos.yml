@@ -1,0 +1,62 @@
+---
+##################################################
+# 実行するタスクを定義する
+##################################################
+
+- name: EPELリポジトリをインストール
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - php
+
+- name: Remiリポジトリをインストール
+  yum:
+    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+    state: present
+  tags:
+    - php
+
+- name: PHP 7.2をインストール
+  yum:
+    name:
+      - php
+      - php-bcmath
+      - php-cli
+      - php-common
+      - php-devel
+      - php-json
+      - php-mcrypt
+      - php-mbstring
+      - php-mysqlnd
+      - php-opcache
+      - php-openssl
+      - php-pdo
+      - php-pear
+      - php-pecl-memcache
+      - php-pecl-memcached
+      - php-pecl-zip
+      - php-pgsql
+      - php-process
+      - php-tokenizer
+      - php-xml
+    state: present
+    enablerepo: remi,remi-php72
+  notify:
+    - restart_apache
+  tags:
+    - php
+
+- name: カスタムphp.iniを転送
+  copy:
+    src: zzmyphp.ini
+    dest: /etc/php.d/zzmyphp.ini
+  notify:
+    - restart_apache
+  tags:
+    - php
+
+- name: composer.pharインストール
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer
+  tags:
+    - php

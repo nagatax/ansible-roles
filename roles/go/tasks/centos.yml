@@ -7,6 +7,7 @@
   yum:
     name: epel-release
     state: latest
+  become: yes # use sudo
   tags:
     - go
 
@@ -14,5 +15,6 @@
   yum:
     name: golang
     state: latest
+  become: yes # use sudo
   tags:
     - go

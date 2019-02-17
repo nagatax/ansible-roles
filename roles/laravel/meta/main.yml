@@ -5,3 +5,8 @@
 
 dependencies:
   - apache
+  - redis
+  - memcached
+  - mariadb
+  - php
+  - yarn

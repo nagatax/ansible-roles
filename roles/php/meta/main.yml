@@ -5,3 +5,6 @@
 
 dependencies:
   - apache
+  - mariadb
+  - memcached
+  - redis

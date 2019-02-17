@@ -1,0 +1,46 @@
+---
+##################################################
+# 実行するタスクを定義する
+##################################################
+
+- name: Install apache
+  apt:
+    name:
+      - apache2
+    state: present
+  become: yes # use sudo
+  tags:
+    - apache
+
+#- name: Copy httpd.conf to server's directory
+#  template:
+#    src: httpd.conf.j2
+#    dest: /etc/httpd/conf/httpd.conf
+#    owner: root
+#    group: root
+#    mode: 0644
+#  tags:
+#    - apache
+#  notify:
+#    - restart_apache
+#
+#- name: Copy vhosts.conf to server's directory
+#  template:
+#    src: vhosts.conf.j2
+#    dest: /etc/httpd/conf.d/vhosts.conf
+#    owner: root
+#    group: root
+#    mode: 0644
+#  tags:
+#    - apache
+#  notify:
+#    - restart_apache
+
+- name: Start apache and Enable autostart
+  systemd:
+    name: apache2
+    state: started
+    enabled: yes
+  become: yes # use sudo
+  tags:
+    - base

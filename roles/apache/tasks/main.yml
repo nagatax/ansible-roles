@@ -3,41 +3,14 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: Install apache
-  yum:
-    name: httpd
-    state: present
+- name: CentOS用の設定
+  include: centos.yml
+  when: ansible_os_family == "RedHat"
   tags:
     - apache
 
-- name: Copy httpd.conf to server's directory
-  template:
-    src: httpd.conf.j2
-    dest: /etc/httpd/conf/httpd.conf
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - apache
-  notify:
-    - restart_apache
-
-- name: Copy vhosts.conf to server's directory
-  template:
-    src: vhosts.conf.j2
-    dest: /etc/httpd/conf.d/vhosts.conf
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - apache
-  notify:
-    - restart_apache
-
-- name: Start apache and Enable autostart
-  service:
-    name: httpd
-    state: started
-    enabled: yes
+- name: Ubuntu用の設定
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian"
   tags:
     - apache

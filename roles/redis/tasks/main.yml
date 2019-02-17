@@ -3,25 +3,14 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: EPELリポジトリをインストール
-  yum:
-    name: epel-release
-    state: present
+- name: CentOS用の設定
+  include: centos.yml
+  when: ansible_os_family == "RedHat"
   tags:
     - redis
 
-- name: Remiリポジトリをインストール
-  yum:
-    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
-    state: present
-  tags:
-    - redis
-
-- name: Redisをインストール
-  yum:
-    name:
-      - redis
-    state: present
-    enablerepo: epel,remi
+- name: Ubuntu用の設定
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian"
   tags:
     - redis

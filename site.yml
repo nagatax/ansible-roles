@@ -5,13 +5,11 @@
 
 - name:   Install commom packages
   hosts:  all
-  become: yes # use sudo
   roles:
     - base
 
 - name:   Install web group's packages
   hosts:  web
-  become: yes # use sudo
   roles:
     - apache
     - docker

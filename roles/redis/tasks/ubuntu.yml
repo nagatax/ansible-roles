@@ -3,10 +3,11 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: Install Golang
+- name: Redisをインストール
   apt:
-    name: golang
+    name:
+      - redis
     state: latest
   become: yes # use sudo
   tags:
-    - go
+    - redis

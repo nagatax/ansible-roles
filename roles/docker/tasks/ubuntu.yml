@@ -3,14 +3,37 @@
 # 実行するタスクを定義する
 ##################################################
 
-- name: Dockerをインストール
+- name: 関連パッケージをインストール
   apt:
     name:
       - apt-transport-https
-      - software-properties-common
       - ca-certificates
       - curl
+      - software-properties-common
     state: latest
+  become: yes # use sudo
+  tags:
+    - docker
+
+- name: GPG公開鍵のインストール
+  shell: |
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  become: yes # use sudo
+  tags:
+    - docker
+
+- name: aptリポジトリの設定
+  shell: |
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  become: yes # use sudo
+  tags:
+    - docker
+
+- name: Dockerのインストール
+  shell: |
+    apt update
+    apt install -y docker-ce
+  become: yes # use sudo
   tags:
     - docker
 
@@ -19,12 +42,14 @@
     name: docker
     state: started
     enabled: yes
+  become: yes # use sudo
   tags:
     - docker
 
 - name: Docker Composeのインストール
   shell: |
-    sudo wget -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
+    wget -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+  become: yes # use sudo
   tags:
     - docker
