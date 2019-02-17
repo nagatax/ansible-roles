@@ -12,7 +12,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "bento/centos-7.1"
+  #config.vm.box = "bento/centos-7.1"
+  config.vm.box = "ubuntu/bionic64"
 
   # hostname
   config.vm.hostname = "local.web"
@@ -58,14 +59,21 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", run: "always", inline: <<-SHELL
+  config.vm.provision "shell", inline: <<-SHELL
 
     # 下記のエラー対応
     #  The error output from the command was:
     #  /sbin/mount.vboxsf: mounting failed with the error: No such device
-    yum -y update kernel
-    yum -y install kernel-devel kernel-headers dkms gcc gcc-c++
+    #yum -y update kernel
+    #yum -y install kernel-devel kernel-headers dkms gcc gcc-c++
+
+    # ubuntu
+    apt install -y python
 
   SHELL
+
+  # config.vm.provision "ansible" do |ansible|
+  #   ansible.playbook = "site.yml"
+  # end
 
 end
