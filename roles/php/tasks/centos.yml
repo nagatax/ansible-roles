@@ -1,23 +1,21 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: EPELリポジトリをインストール
+- name: Install EPEL repository
   yum:
     name: epel-release
-    state: present
-  tags:
-    - php
+    state: latest
+  become: yes # use sudo
 
-- name: Remiリポジトリをインストール
+- name: Install Remi repository
   yum:
     name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
     state: present
-  tags:
-    - php
+  become: yes # use sudo
 
-- name: PHP 7.2をインストール
+- name: Install PHP
   yum:
     name:
       - php
@@ -42,21 +40,20 @@
       - php-xml
     state: present
     enablerepo: remi,remi-php72
+  become: yes # use sudo
   notify:
-    - restart_apache
-  tags:
-    - php
+    - restart_apache_redhat
 
-- name: カスタムphp.iniを転送
+- name: Copy custom php.ini
   copy:
     src: zzmyphp.ini
     dest: /etc/php.d/zzmyphp.ini
+  become: yes # use sudo
   notify:
-    - restart_apache
-  tags:
-    - php
+    - restart_apache_redhat
 
-- name: composer.pharインストール
-  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer
-  tags:
-    - php
+- name: Install Composer
+  shell: |
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer
+  become: yes # use sudo
+

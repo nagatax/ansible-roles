@@ -1,12 +1,10 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
 - name: Install Golang
   apt:
     name: golang
-    state: latest
+    state: present
   become: yes # use sudo
-  tags:
-    - go

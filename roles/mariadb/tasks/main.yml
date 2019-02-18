@@ -1,74 +1,16 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: MariaDBのリポジトリをインストール
-  shell: curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+- name: Setting of CentOS
+  include: centos.yml
+  when: ansible_os_family == "RedHat"
   tags:
     - mariadb
 
-- name: MariaDBをインストール
-  yum:
-    name:
-      - MariaDB-server
-      - MariaDB-client
-      - MySQL-python
-    state: present
-  tags:
-    - mariadb
-
-- name: my.cnfテンプレートを転送
-  template:
-    src: my.cnf.j2
-    dest: /etc/my.cnf
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - mariadb
-  notify:
-    - MariaDBを再起動
-
-- name: MariaDBのサービスの有効化
-  service:
-    name: mariadb
-    state: started
-    enabled: yes
-  tags:
-    - mariadb
-
-- name: root アカウントのパスワードを設定
-  mysql_user:
-    name: root
-    host: localhost
-    password: "{{ mysql_root_password }}"
-  tags:
-    - mariadb
-
-- name: rootアカウントのパスワードを転送
-  template:
-    src: my.client.cnf.j2
-    dest: /root/.my.cnf
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - mariadb
-
-- name: データベース homestead を作成
-  mysql_db:
-    name: homestead
-    state: present
-  tags:
-    - mariadb
-
-- name: MySQLユーザー homestead を作成し，homestead.* にすべての権限を与える
-  mysql_user:
-    name: homestead
-    password: "{{ mysql_db_password }}"
-    priv: "homestead.*:ALL,GRANT"
-    host: localhost
-    state: present
+- name: Setting of Ubuntu
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian"
   tags:
     - mariadb

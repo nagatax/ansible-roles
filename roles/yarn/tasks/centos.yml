@@ -1,32 +1,26 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: NodeJSのリポジトリを登録
+- name: Register NodeJS repository
   shell: |
     curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
   become: yes # use sudo
-  tags:
-    - yarn
 
-- name: NodeJSのインストール
+- name: Install NodeJS
   yum:
     name: nodejs
     state: latest
   become: yes # use sudo
-  tags:
-    - yarn
 
-- name: Yarnのリポジトリを登録
+- name: Register Yarn repository
   shell: |
     curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
   become: yes # use sudo
-  tags:
-    - yarn
 
-- name: Yarnをインストール
-  shell: curl -sL https://rpm.nodesource.com/setup_11.x | bash - && yum install nodejs
+- name: Install Yarn
+  yum:
+    name: yarn
+    state: latest
   become: yes # use sudo
-  tags:
-    - yarn

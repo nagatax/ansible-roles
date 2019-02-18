@@ -1,6 +1,6 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
 - name: Dockerをインストール
@@ -8,24 +8,18 @@
     name:
       - docker
       - net-tools
-    state: latest
+    state: present
   become: yes # use sudo
-  tags:
-    - docker
 
 - name: Dockerを起動、自動起動を有効化
-  service:
+  systemd:
     name: docker
     state: started
     enabled: yes
   become: yes # use sudo
-  tags:
-    - docker
 
 - name: Docker Composeのインストール
   shell: |
     wget -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
   become: yes # use sudo
-  tags:
-    - docker

@@ -3,14 +3,9 @@
 # Define tasks
 ##################################################
 
-- name: Install EPEL repogitry
+- name: Install memcached
   yum:
-    name: epel-release
-    state: latest
-  become: yes # use sudo
-
-- name: Install Golang
-  yum:
-    name: golang
+    name:
+      - memcached
     state: present
   become: yes # use sudo

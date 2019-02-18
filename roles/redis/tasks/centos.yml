@@ -1,30 +1,24 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: EPELリポジトリをインストール
+- name: Install EPEL repository
   yum:
     name: epel-release
     state: present
   become: yes # use sudo
-  tags:
-    - redis
 
-- name: Remiリポジトリをインストール
+- name: Install Remi repository
   yum:
     name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
     state: present
   become: yes # use sudo
-  tags:
-    - redis
 
-- name: Redisをインストール
+- name: Install Redis
   yum:
     name:
       - redis
     state: present
     enablerepo: epel,remi
   become: yes # use sudo
-  tags:
-    - redis

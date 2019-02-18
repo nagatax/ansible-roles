@@ -1,0 +1,83 @@
+---
+##################################################
+# 実行するタスクを定義する
+##################################################
+
+- name: MariaDBのリポジトリをインストール
+  shell: |
+    curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
+  become: yes # use sudo
+  tags:
+    - mariadb
+
+- name: MariaDBをインストール
+  yum:
+    name:
+      - MariaDB-server
+      - MariaDB-client
+      - MySQL-python
+    state: present
+  become: yes # use sudo
+  tags:
+    - mariadb
+
+- name: my.cnfテンプレートを転送
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes # use sudo
+  tags:
+    - mariadb
+  notify:
+    - MariaDBを再起動
+
+- name: MariaDBのサービスの有効化
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+  become: yes # use sudo
+  tags:
+    - mariadb
+
+- name: root アカウントのパスワードを設定
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+  become: yes # use sudo
+  tags:
+    - mariadb
+
+- name: rootアカウントのパスワードを転送
+  template:
+    src: my.client.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes # use sudo
+  tags:
+    - mariadb
+
+- name: データベース homestead を作成
+  mysql_db:
+    name: homestead
+    state: present
+  become: yes # use sudo
+  tags:
+    - mariadb
+
+- name: MySQLユーザー homestead を作成し，homestead.* にすべての権限を与える
+  mysql_user:
+    name: homestead
+    password: "{{ mysql_db_password }}"
+    priv: "homestead.*:ALL,GRANT"
+    host: localhost
+    state: present
+  become: yes # use sudo
+  tags:
+    - mariadb

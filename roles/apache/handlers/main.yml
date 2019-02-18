@@ -3,14 +3,12 @@
 # ハンドラを定義する
 ##################################################
 
-- name: restart_apache
-  service:
+- name: restart_apache_redhat
+  systemd:
     name: httpd
     state: restarted
-  when: ansible_os_family == "RedHat"
 
-- name: restart_apache
-  service:
+- name: restart_apache_debian
+  systemd:
     name: apache2
     state: restarted
-  when: ansible_os_family == "Debian"

@@ -1,12 +1,16 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: memcachedをインストール
-  yum:
-    name:
-      - memcached
-    state: present
+- name: Setting of CentOS
+  include: centos.yml
+  when: ansible_os_family == "RedHat"
+  tags:
+    - memcached
+
+- name: Setting of Ubuntu
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian"
   tags:
     - memcached

@@ -1,34 +1,27 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: NodeJSのリポジトリを登録
+- name: Register NodeJS repository
   shell: |
     curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
   become: yes # use sudo
-  tags:
-    - yarn
 
-- name: NodeJSのインストール
+- name: Install NodeJS
   apt:
     name: nodejs
     state: latest
   become: yes # use sudo
-  tags:
-    - yarn
 
-- name: Yarnのリポジトリを登録
+- name: Register Yarn repository
   shell: |
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
   become: yes # use sudo
-  tags:
-    - yarn
 
-- name: Yarnをインストール
+- name: Install Yarn
   shell: |
-    apt update && apt install yarn
+    apt update
+    apt install yarn
   become: yes # use sudo
-  tags:
-    - yarn

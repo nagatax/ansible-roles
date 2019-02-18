@@ -1,23 +1,23 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: リポジトリをインストール
+- name: Install repository of nginx
   copy:
     src: nginx.repo
     dest: /etc/yum.repos.d/nginx.repo
   tags:
     - nginx
 
-- name: Nginxのインストール
+- name: Install Nginx
   yum:
     name: nginx
     state: present
   tags:
     - nginx
 
-- name: Nginxを起動、自動起動を有効化
+- name: Start Nginx and enable autostart
   service:
     name: nginx
     state: started

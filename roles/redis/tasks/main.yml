@@ -1,15 +1,15 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: CentOS用の設定
+- name: Setting of CentOS
   include: centos.yml
   when: ansible_os_family == "RedHat"
   tags:
     - redis
 
-- name: Ubuntu用の設定
+- name: Setting of Ubuntu
   include: ubuntu.yml
   when: ansible_os_family == "Debian"
   tags:

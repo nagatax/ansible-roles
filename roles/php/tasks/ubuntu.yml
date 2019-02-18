@@ -1,9 +1,9 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
-- name: php
+- name: Install PHP
   apt:
     name:
       - php7.2
@@ -25,13 +25,9 @@
       - php7.2-xml
     state: latest
   become: yes # use sudo
-  tags:
-    - php
 
-- name: composer.pharインストール
+- name: Install Composer
   shell: |
     curl -sS https://getcomposer.org/installer
     php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer
   become: yes # use sudo
-  tags:
-    - php

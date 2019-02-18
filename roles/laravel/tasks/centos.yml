@@ -1,6 +1,6 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
 - name: laravelがセットアップ済みか確認
@@ -9,67 +9,66 @@
     get_checksum: false
     get_md5: false
   register: is_laravel_folder
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: Laravel Installerのインストール
   composer:
     command: require
     global_command: yes
     arguments: laravel/installer=~1.1
+  become: yes
+  become_user: apache
   when: is_laravel_folder.stat.exists == False
-  tags:
-    - laravel
 
 - name: laravelのセットアップ
   shell: |
     cd /var/www/html/laravelapp
     ~/.composer/vendor/bin/laravel new
     chmod +w storage bootstrap/cache
+  become: yes
+  become_user: apache
   when: is_laravel_folder.stat.exists == False
-  tags:
-    - laravel
 
-#- name: PHP Coding Standards Fixer
-#  composer:
-#    command: require
-#    no-dev: yes
-#    arguments: friendsofphp/php-cs-fixer
-#    working_dir: /var/www/html/laravelapp
-#  tags:
-#    - laravel
-#
-#- name: PHP_CodeSniffer
-#  composer:
-#    command: require
-#    no-dev: yes
-#    arguments: squizlabs/php_codesniffer
-#    working_dir: /var/www/html/laravelapp
-#  tags:
-#    - laravel
-#
-#- name: PHP Mess Detector
-#  composer:
-#    command: require
-#    no-dev: yes
-#    arguments: phpmd/phpmd=@stable
-#    working_dir: /var/www/html/laravelapp
-#  tags:
-#    - laravel
-#
+- name: PHP Coding Standards Fixer
+  composer:
+    command: require
+    no-dev: yes
+    arguments: friendsofphp/php-cs-fixer
+    working_dir: /var/www/html/laravelapp
+  become: yes
+  become_user: apache
+
+- name: PHP_CodeSniffer
+  composer:
+    command: require
+    no-dev: yes
+    arguments: squizlabs/php_codesniffer
+    working_dir: /var/www/html/laravelapp
+  become: yes
+  become_user: apache
+
+- name: PHP Mess Detector
+  composer:
+    command: require
+    no-dev: yes
+    arguments: phpmd/phpmd=@stable
+    working_dir: /var/www/html/laravelapp
+  become: yes
+  become_user: apache
+
 - name: Install Horizon
   composer:
     command: require
     arguments: laravel/horizon
     working_dir: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: Install laravel-mix
-  npm:
+  yarn:
     path: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
 
 - name: Install laravel-debugbar
   composer:
@@ -77,8 +76,8 @@
     no-dev: yes
     arguments: barryvdh/laravel-debugbar
     working_dir: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: Install laravel helper
   composer:
@@ -86,15 +85,16 @@
     no-dev: yes
     arguments: barryvdh/laravel-ide-helper
     working_dir: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: create helper file
-  shell: php artisan ide-helper:generate
+  shell: |
+    php artisan ide-helper:generate
   args:
     chdir: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: Install Laravel Telescope
   composer:
@@ -102,8 +102,8 @@
     no-dev: yes
     arguments: laravel/telescope
     working_dir: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: アセットの公開
   shell: |
@@ -111,8 +111,8 @@
     php artisan migrate
   args:
     chdir: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: Install predis
   composer:
@@ -120,10 +120,10 @@
     no-dev: yes
     arguments: predis/predis
     working_dir: /var/www/html/laravelapp
-  tags:
-    - laravel
+  become: yes
+  become_user: apache
 
 - name: フォルダ権限の変更
-  shell: chown -R apache:apache /var/www/html/laravelapp
-  tags:
-    - laravel
+  shell: |
+    chown -R apache:apache /var/www/html/laravelapp
+  become: yes

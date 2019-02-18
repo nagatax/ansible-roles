@@ -1,6 +1,6 @@
 ---
 ##################################################
-# 実行するタスクを定義する
+# Define tasks
 ##################################################
 
 - name: Install apache
@@ -9,8 +9,6 @@
       - apache2
     state: present
   become: yes # use sudo
-  tags:
-    - apache
 
 #- name: Copy httpd.conf to server's directory
 #  template:
@@ -42,5 +40,3 @@
     state: started
     enabled: yes
   become: yes # use sudo
-  tags:
-    - base

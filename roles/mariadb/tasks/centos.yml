@@ -1,0 +1,67 @@
+---
+##################################################
+# Define tasks
+##################################################
+
+- name: Install repository of MariaDB
+  shell: |
+    curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
+  become: yes # use sudo
+
+- name: Install MariaDB
+  yum:
+    name:
+      - MariaDB-server
+      - MariaDB-client
+      - MySQL-python
+    state: present
+  become: yes # use sudo
+
+- name: Copy my.cnf template
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes # use sudo
+  notify:
+    - restart_mariadb
+
+- name: Enable MariaDB service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+  become: yes # use sudo
+
+- name: Set root's password
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+  become: yes # use sudo
+
+- name: Copy .my.cnf template
+  template:
+    src: my.client.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes # use sudo
+
+- name: データベース homestead を作成
+  mysql_db:
+    name: homestead
+    state: present
+  become: yes # use sudo
+
+- name: MySQLユーザー homestead を作成し，homestead.* にすべての権限を与える
+  mysql_user:
+    name: homestead
+    password: "{{ mysql_db_password }}"
+    priv: "homestead.*:ALL,GRANT"
+    host: localhost
+    state: present
+  become: yes # use sudo
