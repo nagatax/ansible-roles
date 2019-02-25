@@ -51,7 +51,7 @@
     mode: 0644
   become: yes # use sudo
 
-- name: データベース homestead を作成
+- name: Create homestead Database
   mysql_db:
     name: homestead
     state: present

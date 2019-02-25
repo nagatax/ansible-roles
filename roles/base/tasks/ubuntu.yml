@@ -3,15 +3,20 @@
 # Define tasks
 ##################################################
 
-- name: ロケール設定
+- name: Set locale
   command: localectl set-locale {{ base_locale }}
   become: yes # use sudo
 
-- name: タイムゾーン設定
+- name: Set timezone
   command: timedatectl set-timezone {{ base_timezone }}
   become: yes # use sudo
 
-- name: 基本パッケージをインストール
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+  become: yes # use sudo
+
+- name: Install base packages
   apt:
     name:
       - curl
@@ -22,7 +27,7 @@
     state: latest
   become: yes # use sudo
 
-- name: ntpdを起動、自動起動の有効化
+- name: Start ntpd service and enable autostart
   systemd:
     name: ntp
     state: started

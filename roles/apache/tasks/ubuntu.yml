@@ -10,29 +10,27 @@
     state: present
   become: yes # use sudo
 
-#- name: Copy httpd.conf to server's directory
-#  template:
-#    src: httpd.conf.j2
-#    dest: /etc/httpd/conf/httpd.conf
-#    owner: root
-#    group: root
-#    mode: 0644
-#  tags:
-#    - apache
-#  notify:
-#    - restart_apache
-#
-#- name: Copy vhosts.conf to server's directory
-#  template:
-#    src: vhosts.conf.j2
-#    dest: /etc/httpd/conf.d/vhosts.conf
-#    owner: root
-#    group: root
-#    mode: 0644
-#  tags:
-#    - apache
-#  notify:
-#    - restart_apache
+- name: Copy apache2.conf to server's directory
+  template:
+    src: ubuntu/apache2.conf.j2
+    dest: /etc/apache2/apache2.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes # use sudo
+  notify:
+    - restart_apache_debian
+
+- name: Copy vhosts.conf to server's directory
+  template:
+    src: ubuntu/000-default.conf.j2
+    dest: /etc/apache2/sites-available/000-default.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: yes # use sudo
+  notify:
+    - restart_apache_debian
 
 - name: Start apache and Enable autostart
   systemd:

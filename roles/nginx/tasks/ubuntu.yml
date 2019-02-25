@@ -3,9 +3,9 @@
 # Define tasks
 ##################################################
 
-- name: Install Redis
+- name: Install Nginx
   apt:
-    name: redis
+    name: nginx
     state: latest
     update_cache: yes
   become: yes # use sudo

@@ -4,7 +4,8 @@
 ##################################################
 
 - name: Install memcached
-  yum:
-    name:
-      - memcached
-    state: present
+  apt:
+    name: memcached
+    state: latest
+    update_cache: yes
+  become: yes # use sudo

@@ -3,24 +3,14 @@
 # Define tasks
 ##################################################
 
-- name: Install repository of nginx
-  copy:
-    src: nginx.repo
-    dest: /etc/yum.repos.d/nginx.repo
+- name: Setting of CentOS
+  include: centos.yml
+  when: ansible_os_family == "RedHat"
   tags:
     - nginx
 
-- name: Install Nginx
-  yum:
-    name: nginx
-    state: present
-  tags:
-    - nginx
-
-- name: Start Nginx and enable autostart
-  service:
-    name: nginx
-    state: started
-    enabled: yes
+- name: Setting of Ubuntu
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian"
   tags:
     - nginx
