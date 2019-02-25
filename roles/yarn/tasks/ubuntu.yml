@@ -12,6 +12,7 @@
   apt:
     name: nodejs
     state: latest
+    update_cache: yes
   become: yes # use sudo
 
 - name: Register Yarn repository
@@ -21,7 +22,8 @@
   become: yes # use sudo
 
 - name: Install Yarn
-  shell: |
-    apt update
-    apt install yarn
+  apt:
+    name: yarn
+    state: latest
+    update_cache: yes
   become: yes # use sudo
