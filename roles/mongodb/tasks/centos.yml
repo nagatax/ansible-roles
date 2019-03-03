@@ -3,22 +3,15 @@
 # Define tasks
 ##################################################
 
-- name: Install EPEL repository
-  yum:
-    name: epel-release
-    state: present
+- name: Install repository of MongoDB
+  copy:
+    src: mongodb-org-4.0.repo
+    dest: /etc/yum.repos.d/mongodb-org-4.0.repo
   become: yes # use sudo
 
-- name: Install Remi repository
+- name: Install MongoDB
   yum:
-    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
-    state: present
-  become: yes # use sudo
-
-- name: Install Redis
-  yum:
-    name:
-      - redis
-    state: present
-    enablerepo: epel,remi
+    name: mongodb-org
+    state: latest
+    update_cache: yes
   become: yes # use sudo
