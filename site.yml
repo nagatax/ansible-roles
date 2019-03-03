@@ -19,6 +19,7 @@
     - mariadb
     - memcached
     - minio
+    - mongodb
     - nginx
     - php
     - redis

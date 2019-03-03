@@ -1,0 +1,21 @@
+---
+##################################################
+# Define tasks
+##################################################
+
+- name: Add key for MongoDB
+  shell: |
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+  become: yes # use sudo
+
+- name: Register MongoDB repository
+  shell: |
+    echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+  become: yes # use sudo
+
+- name: Install MongoDB
+  apt:
+    name: mongodb-org
+    state: latest
+    update_cache: yes
+  become: yes # use sudo
