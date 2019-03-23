@@ -12,7 +12,7 @@
 - name: Install Remi repository
   yum:
     name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
-    state: present
+    state: latest
   become: yes # use sudo
 
 - name: Install PHP
