@@ -7,3 +7,4 @@
   systemd:
     name: mariadb
     state: restarted
+  become: yes # use sudo

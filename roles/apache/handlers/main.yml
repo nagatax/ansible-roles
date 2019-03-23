@@ -7,8 +7,10 @@
   systemd:
     name: httpd
     state: restarted
+  become: yes # use sudo
 
 - name: restart_apache_debian
   systemd:
     name: apache2
     state: restarted
+  become: yes # use sudo
