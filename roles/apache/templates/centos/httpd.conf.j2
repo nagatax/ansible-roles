@@ -63,7 +63,7 @@ Include conf.modules.d/*.conf
 # It is usually good practice to create a dedicated user and group for
 # running httpd, as with most system services.
 #
-User apache
+User {{ apache_user_redhat }}
 Group apache
 
 # 'Main' server configuration

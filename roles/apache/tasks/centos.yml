@@ -11,7 +11,7 @@
 
 - name: Copy httpd.conf to server's directory
   template:
-    src: httpd.conf.j2
+    src: centos/httpd.conf.j2
     dest: /etc/httpd/conf/httpd.conf
     owner: root
     group: root
@@ -22,7 +22,7 @@
 
 - name: Copy vhosts.conf to server's directory
   template:
-    src: vhosts.conf.j2
+    src: centos/vhosts.conf.j2
     dest: /etc/httpd/conf.d/vhosts.conf
     owner: root
     group: root
