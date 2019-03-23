@@ -1,0 +1,2 @@
+## Allows people in group admins to run all commands
+%admins ALL=(ALL) NOPASSWD: ALL
