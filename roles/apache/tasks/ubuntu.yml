@@ -5,8 +5,7 @@
 
 - name: Install apache
   apt:
-    name:
-      - apache2
+    name: apache2
     state: present
   become: yes # use sudo
 
