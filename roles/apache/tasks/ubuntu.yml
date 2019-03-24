@@ -31,6 +31,14 @@
   notify:
     - restart_apache_debian
 
+- name: Enable mod_rewrite
+  shell: |
+    a2enmod rewrite
+    systemctl restart apache2
+  become: yes # use sudo
+  notify:
+    - restart_apache_debian
+
 - name: Start apache and Enable autostart
   systemd:
     name: apache2
