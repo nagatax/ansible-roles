@@ -10,7 +10,7 @@
     get_md5: false
   register: is_laravel_folder
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: Laravel Installerのインストール
   composer:
@@ -18,7 +18,7 @@
     global_command: yes
     arguments: laravel/installer=~1.1
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
   when: is_laravel_folder.stat.exists == False
 
 - name: laravelのセットアップ
@@ -27,7 +27,7 @@
     ~/.composer/vendor/bin/laravel new
     chmod +w storage bootstrap/cache
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
   when: is_laravel_folder.stat.exists == False
 
 - name: PHP Coding Standards Fixer
@@ -37,7 +37,7 @@
     arguments: friendsofphp/php-cs-fixer
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: PHP_CodeSniffer
   composer:
@@ -46,7 +46,7 @@
     arguments: squizlabs/php_codesniffer
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: PHP Mess Detector
   composer:
@@ -55,7 +55,7 @@
     arguments: phpmd/phpmd=@stable
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: Install Horizon
   composer:
@@ -63,7 +63,7 @@
     arguments: laravel/horizon
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: Install laravel-mix
   yarn:
@@ -77,7 +77,7 @@
     arguments: barryvdh/laravel-debugbar
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: Install laravel helper
   composer:
@@ -86,7 +86,7 @@
     arguments: barryvdh/laravel-ide-helper
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: create helper file
   shell: |
@@ -94,7 +94,7 @@
   args:
     chdir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: Install Laravel Telescope
   composer:
@@ -103,7 +103,7 @@
     arguments: laravel/telescope
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: アセットの公開
   shell: |
@@ -112,7 +112,7 @@
   args:
     chdir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: Install predis
   composer:
@@ -121,7 +121,7 @@
     arguments: predis/predis
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: apache
+  become_user: "{{ app_own_user }}"
 
 - name: フォルダ権限の変更
   shell: |

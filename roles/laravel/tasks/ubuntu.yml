@@ -10,7 +10,7 @@
     get_md5: false
   register: is_laravel_folder
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -20,7 +20,7 @@
     global_command: yes
     arguments: laravel/installer=~1.1
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   when: is_laravel_folder.stat.exists == False
   tags:
     - laravel
@@ -31,7 +31,7 @@
     ~/.composer/vendor/bin/laravel new
     chmod +w storage bootstrap/cache
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   when: is_laravel_folder.stat.exists == False
   tags:
     - laravel
@@ -41,7 +41,7 @@
     command: update
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -52,7 +52,7 @@
     arguments: friendsofphp/php-cs-fixer
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -63,7 +63,7 @@
     arguments: squizlabs/php_codesniffer
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -74,7 +74,7 @@
     arguments: phpmd/phpmd=@stable
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -84,7 +84,7 @@
     arguments: laravel/horizon
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -102,7 +102,7 @@
     arguments: barryvdh/laravel-debugbar
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -113,7 +113,7 @@
     arguments: barryvdh/laravel-ide-helper
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -123,7 +123,7 @@
   args:
     chdir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -134,7 +134,7 @@
     arguments: laravel/telescope
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -145,7 +145,7 @@
   args:
     chdir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
@@ -156,7 +156,7 @@
     arguments: predis/predis
     working_dir: /var/www/html/laravelapp
   become: yes
-  become_user: www-data
+  become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
