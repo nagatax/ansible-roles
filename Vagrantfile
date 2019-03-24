@@ -78,6 +78,8 @@ Vagrant.configure("2") do |config|
       #yum -y install kernel-devel kernel-headers dkms gcc gcc-c++
 
       # ubuntu
+      sudo apt-get update
+      sudo apt-get upgrade
       sudo apt-get install -y python
     SHELL
   end
