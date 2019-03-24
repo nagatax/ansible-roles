@@ -51,7 +51,8 @@ Vagrant.configure("2") do |config|
     # the path on the host to the actual folder. The second argument is
     # the path on the guest to mount the folder. And the optional third
     # argument is a set of non-required options.
-    web.vm.synced_folder "./webapp", "/var/www/html/laravelapp"
+    # (!!注意!!)synced_folderで指定したフォルダ内は、ゲストマシン側で権限を変更できない
+    web.vm.synced_folder "./webapp", "/var/www/html/laravelapp", mount_options: ['dmode=777','fmode=777']
 
     # Provider-specific configuration so you can fine-tune various
     # backing providers for Vagrant. These expose provider-specific options.
