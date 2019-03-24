@@ -24,7 +24,7 @@
 - name: laravelのセットアップ
   shell: |
     cd /var/www/html/laravelapp
-    ~/.composer/vendor/bin/laravel new
+    ~/.config/composer/vendor/bin/laravel new
     chmod +w storage bootstrap/cache
   become: yes
   become_user: "{{ app_own_user }}"
