@@ -28,6 +28,7 @@
     - yarn
 
 # Deploy
-#- host: web
-#  roles:
-#    - deploy
+- name: Deploy application code
+  hosts: web
+  roles:
+    - deploy
