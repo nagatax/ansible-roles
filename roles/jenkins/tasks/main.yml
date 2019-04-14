@@ -1,0 +1,16 @@
+---
+##################################################
+# Define tasks
+##################################################
+
+- name: Setting of CentOS
+  include: centos.yml
+  when: ansible_os_family == "RedHat"
+  tags:
+    - jenkins
+
+- name: Setting of Ubuntu
+  include: ubuntu.yml
+  when: ansible_os_family == "Debian"
+  tags:
+    - jenkins
