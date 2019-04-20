@@ -3,9 +3,34 @@
 # Define tasks
 ##################################################
 
-- name: Install memcached
+- name: Install related packages
   yum:
     name:
-      - memcached
-    state: present
+      - libevent-devel
+      - perl-core
+      - perl-CPAN
+      - perl-Test-Harness
+    state: latest
   become: yes # use sudo
+
+- name: Set CPAN Configuration
+  shell: |
+    (echo y;echo o conf prerequisites_policy follow;echo o conf commit) | cpan
+  become: yes # use sudo
+
+- name: Install perl modules
+  shell: |
+    perl -MCPAN -e 'CPAN::Shell->install("Test::More")'
+  become: yes # use sudo
+
+- name: Install memcached
+  shell: |
+    wget https://www.memcached.org/files/memcached-1.5.13.tar.gz
+    tar -zxvf memcached-1.5.13.tar.gz
+    cd memcached-1.5.13
+    ./configure --prefix=/usr/local/memcached
+    make && make test && make install
+  args:
+    chdir: /usr/local/src/
+  become: yes # use sudo
+
