@@ -11,8 +11,8 @@
 - name: Install MariaDB
   yum:
     name:
-      - MariaDB-server
       - MariaDB-client
+      - MariaDB-server
       - MySQL-python
     state: present
   become: yes # use sudo
@@ -49,19 +49,4 @@
     owner: root
     group: root
     mode: 0644
-  become: yes # use sudo
-
-- name: Create homestead Database
-  mysql_db:
-    name: homestead
-    state: present
-  become: yes # use sudo
-
-- name: MySQLユーザー homestead を作成し，homestead.* にすべての権限を与える
-  mysql_user:
-    name: homestead
-    password: "{{ mysql_db_password }}"
-    priv: "homestead.*:ALL,GRANT"
-    host: localhost
-    state: present
   become: yes # use sudo

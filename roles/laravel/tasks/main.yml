@@ -3,6 +3,11 @@
 # Define tasks
 ##################################################
 
+- name: Setup DB
+  include: setupDb.yml
+  tags:
+    - laravel
+
 - name: Setting of CentOS
   include: centos.yml
   when: ansible_os_family == "RedHat"
