@@ -20,5 +20,4 @@
     name:
       - redis
     state: present
-    enablerepo: epel,remi
   become: yes # use sudo
