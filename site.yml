@@ -5,12 +5,9 @@
 
 - name:   Install commom packages
   hosts:  all
+  connection: local
   roles:
     - base
-
-- name:   Install web group's packages
-  hosts:  web
-  roles:
     - apache
     - docker
     - go
@@ -26,9 +23,4 @@
     - redis
     - ruby
     - yarn
-
-# Deploy
-- name: Deploy application code
-  hosts: web
-  roles:
-    - deploy
+#    - deploy
