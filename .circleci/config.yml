@@ -3,25 +3,16 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/circleci-cli:latest
+      - image: python:2
     working_directory: ~/ansible
     steps:
       - checkout
       - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          name: Install requirements
+          command: pip install -r ./.circleci/requirements.txt
       - run:
-          name: install-npm-wee
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-      - run:
-          name: test
-          command: npm test
+          name: Run ansible-lint
+          command: ansible-lint site.yml -c ./.circleci/.ansible-lint
 workflows:
   version: 2
   workflow:
