@@ -3,11 +3,16 @@
 # 実行するロールを定義する
 ##################################################
 
-- name:   Install commom packages
+- name:   Install base packages
   hosts:  all
   connection: local
   roles:
     - base
+
+- name:   Install packages
+  hosts:  all
+  connection: local
+  roles:
     - apache
     - docker
     - go
