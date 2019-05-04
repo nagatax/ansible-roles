@@ -25,6 +25,7 @@
       - ntp
       - unzip
       - vim
+      - wget
     state: latest
   become: yes # use sudo
 
