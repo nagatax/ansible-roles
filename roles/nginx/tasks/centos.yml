@@ -14,10 +14,3 @@
     name: nginx
     state: present
   become: yes # use sudo
-
-- name: Start Nginx and enable autostart
-  service:
-    name: nginx
-    state: started
-    enabled: yes
-  become: yes # use sudo
