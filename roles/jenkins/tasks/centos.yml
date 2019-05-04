@@ -4,8 +4,10 @@
 ##################################################
 
 - name: Add Jenkins Repository.
-  shell: |
-    wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+  get_url:
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    checksum: sha256:9d836919c158c4189aae93e892f3ff4ceea25a23ac352dc2df26494286ea146c
   become: yes # use sudo
 
 - name: Import key.
