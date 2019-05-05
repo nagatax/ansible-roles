@@ -25,7 +25,7 @@
       - php7.2-tokenizer
       - php7.2-xml
       - php7.2-zip
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Install Composer

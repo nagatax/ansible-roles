@@ -11,7 +11,7 @@
 - name: Install NodeJS
   yum:
     name: nodejs
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Register Yarn repository
@@ -22,5 +22,5 @@
 - name: Install Yarn
   yum:
     name: yarn
-    state: latest
+    state: present
   become: yes # use sudo

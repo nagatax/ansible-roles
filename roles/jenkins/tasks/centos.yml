@@ -20,12 +20,12 @@
     name:
       - java-1.8.0-openjdk
       - java-1.8.0-openjdk-devel
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Install jenkins packages
   yum:
     name:
       - jenkins
-    state: latest
+    state: present
   become: yes # use sudo

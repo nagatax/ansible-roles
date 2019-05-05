@@ -10,7 +10,7 @@
       - perl-core
       - perl-CPAN
       - perl-Test-Harness
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Set CPAN Configuration

@@ -6,6 +6,6 @@
 - name: Install memcached
   apt:
     name: memcached
-    state: latest
+    state: present
     update_cache: yes
   become: yes # use sudo

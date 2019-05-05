@@ -17,7 +17,7 @@
       - python
       - python-pip
       - python-setuptools
-    state: latest
+    state: present
     update_cache: yes
   become: yes # use sudo
 

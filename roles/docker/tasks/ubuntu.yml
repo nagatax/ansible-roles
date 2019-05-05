@@ -10,7 +10,7 @@
       - ca-certificates
       - curl
       - software-properties-common
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Install GPG public key

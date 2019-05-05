@@ -17,13 +17,13 @@
   apt:
     name:
       - openjdk-8-jdk
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Install jenkins packages
   apt:
     name:
       - jenkins
-    state: latest
+    state: present
     update_cache: yes
   become: yes # use sudo

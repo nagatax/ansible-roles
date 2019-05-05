@@ -14,7 +14,7 @@
 - name: Update all packages to the latest version
   yum:
     name: '*'
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Install base packages
@@ -26,7 +26,7 @@
       - unzip
       - vim
       - wget
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Start ntpd service and enable autostart

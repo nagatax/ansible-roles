@@ -26,7 +26,7 @@
       - unzip
       - vim
       - wget
-    state: latest
+    state: present
   become: yes # use sudo
 
 - name: Start ntpd service and enable autostart
