@@ -21,7 +21,7 @@
     arguments: laravel/installer=~1.1
   become: yes
   become_user: "{{ app_own_user }}"
-  when: is_laravel_folder.stat.exists == False
+  when: not is_laravel_folder.stat.exists
   tags:
     - laravel
 
@@ -32,7 +32,7 @@
     chmod +w storage bootstrap/cache
   become: yes
   become_user: "{{ app_own_user }}"
-  when: is_laravel_folder.stat.exists == False
+  when: not is_laravel_folder.stat.exists
   tags:
     - laravel
 
