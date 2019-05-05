@@ -10,6 +10,7 @@
 
 - name: Register MongoDB repository
   shell: |
+    set -o pipefail
     echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
   become: yes # use sudo
 

@@ -5,6 +5,7 @@
 
 - name: Register NodeJS repository
   shell: |
+    set -o pipefail
     curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
   become: yes # use sudo
 
@@ -16,6 +17,7 @@
 
 - name: Register Yarn repository
   shell: |
+    set -o pipefail
     curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
   become: yes # use sudo
 

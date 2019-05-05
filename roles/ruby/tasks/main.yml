@@ -33,7 +33,7 @@
 
 - name: Install Related Pakages
   yum:
-    name: 
+    name:
       - openssl-devel
       - readline-devel
       - zlib-devel

@@ -5,6 +5,7 @@
 
 - name: Install repository of MariaDB
   shell: |
+    set -o pipefail
     curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
   become: yes # use sudo
 

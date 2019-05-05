@@ -15,6 +15,7 @@
 
 - name: Set CPAN Configuration
   shell: |
+    set -o pipefail
     (echo y;echo o conf prerequisites_policy follow;echo o conf commit) | cpan
   become: yes # use sudo
 
