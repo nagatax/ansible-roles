@@ -30,37 +30,8 @@
   become: yes # use sudo
 
 - name: Start ntpd service and enable autostart
-  service:
+  systemd:
     name: ntpd
     state: started
     enabled: yes
-  become: yes # use sudo
-
-- name: Ensure group "admins" exists
-  group:
-    name: admins
-    state: present
-  become: yes # use sudo
-
-- name: Ensure group "developers" exists
-  group:
-    name: developers
-    state: present
-  become: yes # use sudo
-
-- name: Add the user 'dev' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
-  user:
-    name: dev
-    shell: /bin/bash
-    groups: admins,developers
-    append: yes
-  become: yes # use sudo
-
-- name: Copy admins to server's directory
-  copy:
-    src: admins
-    dest: /etc/sudoers.d/admins
-    owner: root
-    group: root
-    mode: 0644
   become: yes # use sudo

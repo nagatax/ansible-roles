@@ -11,8 +11,9 @@
   become: yes # use sudo
 
 - name: Import key.
-  shell: |
-    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
   become: yes # use sudo
 
 - name: Install OpenJDK
