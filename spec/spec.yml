@@ -2,6 +2,7 @@
 
 - name: web
   roles:
-    - web_server
     - php
+    - ssh
+    - web_server
 
