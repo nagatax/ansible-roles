@@ -39,7 +39,7 @@
       - php-tokenizer
       - php-xml
     state: present
-    enablerepo: remi,remi-php72
+    enablerepo: remi-php72
   become: yes # use sudo
   notify:
     - restart_apache_redhat
