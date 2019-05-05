@@ -1,0 +1,7 @@
+---
+
+- name: web
+  roles:
+    - web_server
+    - php
+
