@@ -1,6 +1,7 @@
 require 'serverspec'
 require 'net/ssh'
 require 'tempfile'
+require 'infrataster/rspec'
 
 set :backend, :ssh
 
@@ -39,3 +40,10 @@ set :ssh_options, options
 
 # Set PATH
 # set :path, '/sbin:/usr/local/sbin:$PATH'
+
+# Config for Infrataster
+Infrataster::Server.define(
+  :web,
+  '192.168.34.50',
+  :vagrant => true,
+)

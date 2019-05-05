@@ -2,3 +2,6 @@
 
 # ignore vagrant files
 .vagrant/
+
+# ignore rubygems files
+vendor/
