@@ -21,3 +21,10 @@
       - redis
     state: present
   become: yes # use sudo
+
+- name: Start redis and Enable autostart
+  systemd:
+    name: redis
+    state: started
+    enabled: yes
+  become: yes # use sudo

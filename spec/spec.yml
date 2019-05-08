@@ -2,7 +2,20 @@
 
 - name: web
   roles:
+    - apache
+    - base
+    - docker
+    - go
+    - jenkins
+    - mailhog
+    - mariadb
+    - minio
+    - mongodb
+    - nginx
     - php
+    - redis
+    - ruby
     - ssh
+    - yarn
     - web_server
 

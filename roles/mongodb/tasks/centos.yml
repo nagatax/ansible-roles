@@ -5,8 +5,8 @@
 
 - name: Install repository of MongoDB
   copy:
-    src: mongodb-org-4.0.repo
-    dest: /etc/yum.repos.d/mongodb-org-4.0.repo
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/mongodb.repo
   become: yes # use sudo
 
 - name: Install MongoDB
@@ -14,4 +14,11 @@
     name: mongodb-org
     state: present
     update_cache: yes
+  become: yes # use sudo
+
+- name: Start mongodb and Enable autostart
+  systemd:
+    name: mongod
+    state: started
+    enabled: yes
   become: yes # use sudo

@@ -14,3 +14,10 @@
     name: nginx
     state: present
   become: yes # use sudo
+
+- name: Start nginx and Enable autostart
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+  become: yes # use sudo
