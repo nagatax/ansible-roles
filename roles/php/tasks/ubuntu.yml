@@ -30,6 +30,5 @@
 
 - name: Install Composer
   shell: |
-    set -o pipefail
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer
   become: yes # use sudo

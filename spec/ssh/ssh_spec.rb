@@ -13,7 +13,7 @@ describe service(service_name) do
 end
 
 describe file('/etc/ssh/sshd_config') do
-  its(:content) { should_not match /^PasswordAuthentication yes/  }
+  its(:content) { should_not match /^PasswordAuthentication yes/ }
 end
 
 describe port(22) do

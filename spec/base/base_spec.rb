@@ -13,13 +13,13 @@ describe package('git') do
   it { should be_installed }
 end
 
-ntp_package = Package.getPackageName( 'ntp', os[:family], Package::NAME )
-describe package(ntp_package) do
-  it { should be_installed}
+package_name = Package.getPackageName( 'ntp', os[:family], Package::NAME )
+describe package(package_name) do
+  it { should be_installed }
 end
 
-ntp_service = Package.getPackageName( 'ntp', os[:family], Package::DAEMON )
-describe service(ntp_service) do
+service_name = Package.getPackageName( 'ntp', os[:family], Package::DAEMON )
+describe service(service_name) do
   it { should be_enabled }
   it { should be_running }
 end
