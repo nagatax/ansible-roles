@@ -3,19 +3,26 @@
 # Define tasks
 ##################################################
 
-- name: Install repository of MariaDB
-  shell: |
-    set -o pipefail
-    curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
+- name: Import repository key
+  yum_repository:
+    name: mariadb
+    description: MariaDB Repo
+    baseurl: http://yum.mariadb.org/10.3/centos7-amd64
+    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+    gpgcheck: yes
+    file: MariaDB
   become: yes # use sudo
 
 - name: Install MariaDB
   yum:
     name:
+      - galera
+      - rsync
       - MariaDB-client
       - MariaDB-server
       - MySQL-python
     state: present
+    enablerepo: mariadb
   become: yes # use sudo
 
 - name: Copy my.cnf template
