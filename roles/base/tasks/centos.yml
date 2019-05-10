@@ -11,10 +11,44 @@
   command: timedatectl set-timezone {{ base_timezone }}
   become: yes # use sudo
 
+- name: SELinux permissived
+  selinux:
+    policy: targeted
+    state: permissive
+  when: ansible_selinux.config_mode == 'enforcing'
+  become: yes # use sudo
+
+- name: Disable ipv6 interface
+  sysctl:
+    state: present
+    name: "{{ item }}"
+    value: 1
+    sysctl_set: yes
+    reload: yes
+  with_items:
+    - net.ipv6.conf.all.disable_ipv6
+    - net.ipv6.conf.default.disable_ipv6
+  become: yes # use sudo
+
 - name: Update all packages to the latest version
   yum:
     name: '*'
-    state: present
+    state: latest
+    update_cache: yes
+  become: yes # use sudo
+
+- name: Install EPEL repogitry
+  yum:
+    name: epel-release
+    state: latest
+    update_cache: yes
+  become: yes # use sudo
+
+- name: Install Remi repository
+  yum:
+    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+    state: latest
+    update_cache: yes
   become: yes # use sudo
 
 - name: Install base packages
