@@ -23,3 +23,11 @@ describe service(service_name) do
   it { should be_enabled }
   it { should be_running }
 end
+
+describe yumrepo('epel'), :if => os[:family] == 'redhat' do
+  it { should exist }
+end
+
+describe yumrepo('remi'), :if => os[:family] == 'redhat' do
+  it { should exist }
+end

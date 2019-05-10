@@ -1,14 +1,6 @@
 require 'spec_helper'
 require File.join( File.dirname(__FILE__), '../lib/package.rb' )
 
-# describe yumrepo('epel') do
-#   it { should exist }
-# end
-
-# describe yumrepo('remi') do
-#   it { should exist }
-# end
-
 package_name = Package.getPackageName( 'memcached', os[:family], Package::NAME )
 describe package(package_name) do
   it { should be_installed }

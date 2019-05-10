@@ -1,14 +1,6 @@
 require 'spec_helper'
 require File.join( File.dirname(__FILE__), '../lib/package.rb' )
 
-describe yumrepo('epel'), :if => os[:family] == 'redhat' do
-  it { should exist }
-end
-
-describe yumrepo('remi'), :if => os[:family] == 'redhat' do
-  it { should exist }
-end
-
 package_name = Package.getPackageName( 'redis', os[:family], Package::NAME )
 describe package(package_name) do
   it { should be_installed }

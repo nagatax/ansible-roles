@@ -3,12 +3,6 @@
 # Define tasks
 ##################################################
 
-- name: Install EPEL repogitry
-  yum:
-    name: epel-release
-    state: present
-  become: yes # use sudo
-
 - name: Install Golang
   yum:
     name: golang

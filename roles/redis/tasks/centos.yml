@@ -3,18 +3,6 @@
 # Define tasks
 ##################################################
 
-- name: Install EPEL repository
-  yum:
-    name: epel-release
-    state: present
-  become: yes # use sudo
-
-- name: Install Remi repository
-  yum:
-    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
-    state: present
-  become: yes # use sudo
-
 - name: Install Redis
   yum:
     name:
