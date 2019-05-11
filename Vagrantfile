@@ -46,9 +46,10 @@ Vagrant.configure("2") do |config|
       vb.memory = "3072"
     end
 
-    web.vm.provision "ansible_local" do |ansible|
-      ansible.playbook = "site.yml"
-    end
+    # Provision
+    web.vm.provision "shell",
+      inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site.yml --tags=base"
+
   end
 
 end
