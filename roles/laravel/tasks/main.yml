@@ -4,18 +4,18 @@
 ##################################################
 
 - name: Setup DB
-  include: setupDb.yml
+  include_tasks: setupDb.yml
   tags:
     - laravel
 
 - name: Setting of CentOS
-  include: centos.yml
+  include_tasks: centos.yml
   when: ansible_os_family == "RedHat"
   tags:
     - laravel
 
 - name: Setting of Ubuntu
-  include: ubuntu.yml
+  include_tasks: ubuntu.yml
   when: ansible_os_family == "Debian"
   tags:
     - laravel
