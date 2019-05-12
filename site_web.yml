@@ -1,16 +1,7 @@
 ---
 ##################################################
-# 実行するロールを定義する
+# Define executable roles
 ##################################################
-
-- name:   Install common packages
-  hosts:  all
-  connection: local
-  roles:
-    - name: common/locale
-      tags: locale
-    - name: common/packages
-      tags: packages
 
 - name:   Install packages
   hosts:  all

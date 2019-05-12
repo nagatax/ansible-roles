@@ -12,7 +12,7 @@ jobs:
           command: pip install -r ./.circleci/requirements.txt
       - run:
           name: Run ansible-lint
-          command: ansible-lint site.yml -c ./.circleci/.ansible-lint
+          command: ansible-lint site_*.yml -c ./.circleci/.ansible-lint
 workflows:
   version: 2
   workflow:
