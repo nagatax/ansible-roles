@@ -3,8 +3,11 @@
 # 変数のデフォルト値を定義する
 ##################################################
 
-# ロケール
-base_locale: LANG=ja_JP.UTF-8
+# locale
+base_locale: "LANG=ja_JP.UTF-8"
 
-# タイムゾーン
-base_timezone: Asia/Tokyo
+# timezone
+base_timezone: "Asia/Tokyo"
+
+# keymap
+base_keymap: "jp106"

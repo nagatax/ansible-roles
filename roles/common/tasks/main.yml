@@ -3,14 +3,75 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
-  when: ansible_os_family == "RedHat"
-  tags:
-    - base
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
+- name: Setup timezone
+  timezone:
+    name: "{{ base_timezone }}"
+
+- name: Setup locale
+  command: localectl set-locale {{ base_locale }}
+
+- name: Setup keymap
+  command: localectl set-keymap {{ base_keymap }}
+
+- name: SELinux permissived
+  selinux:
+    policy: targeted
+    state: permissive
+  when: ansible_os_family == "RedHat" and ansible_selinux.config_mode == 'enforcing'
+
+- name: Import epel repository
+  yum:
+    name: epel-release
+    state: latest
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Import remi repository
+  yum:
+    name: http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    state: latest
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Update yum packages
+  yum:
+    name: "*"
+    state: latest
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Update apt packages
+  apt:
+    update_cache: yes
   when: ansible_os_family == "Debian"
-  tags:
-    - base
+
+- name: Install base packages
+  package:
+    name:
+      - curl
+      - git
+      - ntp
+      - unzip
+      - vim
+      - wget
+    state: present
+
+- name: Disable ipv6 interface
+  sysctl:
+    state: present
+    name: "{{ item }}"
+    value: 1
+    sysctl_set: yes
+    reload: yes
+  with_items:
+    - net.ipv6.conf.all.disable_ipv6
+    - net.ipv6.conf.default.disable_ipv6
+
+- name: Start ntpd service and enable autostart
+  systemd:
+    name: "{{ ntp_service }}"
+    state: started
+    enabled: yes

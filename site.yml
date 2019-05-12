@@ -3,11 +3,12 @@
 # 実行するロールを定義する
 ##################################################
 
-- name:   Install base packages
+- name:   Install common packages
   hosts:  all
   connection: local
   roles:
-    - base
+    - name: common
+      tags: common
 
 - name:   Install packages
   hosts:  all
