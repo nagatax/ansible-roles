@@ -1,13 +1,13 @@
 ---
 ##################################################
-# 変数のデフォルト値を定義する
+# Define default values
 ##################################################
 
 # locale
-base_locale: "LANG=ja_JP.UTF-8"
+locale_locale: "LANG=ja_JP.UTF-8"
 
 # timezone
-base_timezone: "Asia/Tokyo"
+locale_timezone: "Asia/Tokyo"
 
 # keymap
-base_keymap: "jp106"
+locale_keymap: "jp106"

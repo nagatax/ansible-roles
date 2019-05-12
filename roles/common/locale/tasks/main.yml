@@ -1,0 +1,14 @@
+---
+##################################################
+# Define tasks
+##################################################
+
+- name: Setup timezone
+  timezone:
+    name: "{{ locale_timezone }}"
+
+- name: Setup locale
+  command: localectl set-locale {{ locale_locale }}
+
+- name: Setup keymap
+  command: localectl set-keymap {{ locale_keymap }}

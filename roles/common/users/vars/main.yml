@@ -1,0 +1,17 @@
+---
+##################################################
+# Define default values
+##################################################
+
+users_user:
+  ansible:
+    detail: "Administration User"
+    pass: "{{ 'ansible' | password_hash('sha256') }}"
+    groups: sys
+    priv: admin
+
+  devuser:
+    detail: "Developer User"
+    pass: "{{ 'devuser' | password_hash('sha256') }}"
+    groups: users
+    priv: member

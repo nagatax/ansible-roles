@@ -1,0 +1,29 @@
+---
+##################################################
+# Define tasks
+##################################################
+
+- name: Create new groups
+  group:
+    name: "{{ item.value.groups }}"
+  with_dict: "{{ users_user }}"
+
+- name: Create new users
+  user:
+    name: "{{ item.key }}"
+    password: "{{ item.value.pass }}"
+    shell: /bin/bash
+    home: "/home/{{ item.key }}"
+    state: present
+    groups: "{{ item.value.groups }}"
+  with_dict: "{{ users_user }}"
+
+- name: Deploy temporary sudoers files
+  template:
+    src: "{{ item.value.priv }}_sudoers.j2"
+    dest: "/etc/sudoers.d/{{ item.key }}"
+    owner: root
+    group: root
+    mode: 0400
+    validate: 'visudo -c -f %s'
+  with_dict: "{{ users_user }}"

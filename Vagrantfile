@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "centos/7"
+  config.vm.box = "bento/centos-7.6"
   #config.vm.box = "ubuntu/bionic64"
 
   # The settings within config.ssh relate to configuring how Vagrant will access
@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
 
     # Provision
     web.vm.provision "shell",
-      inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site.yml --tags=base"
+      inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml --tags=times"
 
   end
 

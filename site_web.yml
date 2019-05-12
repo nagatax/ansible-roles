@@ -7,8 +7,10 @@
   hosts:  all
   connection: local
   roles:
-    - name: common
-      tags: common
+    - name: common/locale
+      tags: locale
+    - name: common/packages
+      tags: packages
 
 - name:   Install packages
   hosts:  all
