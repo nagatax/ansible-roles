@@ -18,6 +18,12 @@
     groups: "{{ item.value.groups }}"
   with_dict: "{{ users_user }}"
 
+# - name: Distribute authorized key
+#   authorized_key:
+#     user: "{{ item.key }}"
+#     key: "{{ lookup('file', '/home/username/.ssh/id_rsa.pub') }}"
+#   with_dict: "{{ users_user }}"
+
 - name: Deploy temporary sudoers files
   template:
     src: "{{ item.value.priv }}_sudoers.j2"
