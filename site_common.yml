@@ -6,6 +6,7 @@
 - name:   Install common packages
   hosts:  all
   connection: local
+  become: yes
   roles:
     - name: common/locale
       tags: locale
