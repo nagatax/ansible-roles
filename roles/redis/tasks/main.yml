@@ -3,14 +3,13 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
-  when: ansible_os_family == "RedHat"
-  tags:
-    - redis
+- name: Install Redis
+  package:
+    name: redis
+    state: present
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
-  when: ansible_os_family == "Debian"
-  tags:
-    - redis
+- name: Start redis and Enable autostart
+  systemd:
+    name: redis
+    state: started
+    enabled: yes

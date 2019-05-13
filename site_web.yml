@@ -22,7 +22,8 @@
     - mongodb
     - nginx
     - php
-    - redis
+    - name: redis
+      tags: redis
     - ruby
     - yarn
 #    - deploy
