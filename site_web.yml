@@ -6,13 +6,16 @@
 - name:   Install packages
   hosts:  all
   connection: local
+  become: yes
   roles:
     - apache
     - docker
-    - go
+    - name: go
+      tags: go
     - jenkins
     - laravel
-    - mailhog
+    - name: mailhog
+      tags: mailhog
     - mariadb
     - memcached
     - minio

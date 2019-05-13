@@ -3,14 +3,23 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
-  when: ansible_os_family == "RedHat"
-  tags:
-    - go
+- name: Download go.
+  get_url:
+    url: "https://dl.google.com/go/go{{ go_os }}-{{ go_arch }}.tar.gz"
+    dest: /usr/local/src
+    checksum: "{{ go_checksum }}"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
-  when: ansible_os_family == "Debian"
-  tags:
-    - go
+- name: Unarchive a file.
+  unarchive:
+    src: /usr/local/src/go{{ go_os }}-{{ go_arch }}.tar.gz
+    dest: /usr/local
+
+- name: Create symlinks.
+  file:
+    src: /usr/local/go/bin/{{ item }}
+    dest: /usr/local/bin/{{ item }}
+    state: link
+  with_items:
+    - "go"
+    - "godoc"
+    - "gofmt"
