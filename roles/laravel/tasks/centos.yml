@@ -89,8 +89,7 @@
   become_user: "{{ app_own_user }}"
 
 - name: create helper file
-  shell: |
-    php artisan ide-helper:generate
+  command: php artisan ide-helper:generate
   args:
     chdir: /var/www/html/laravelapp
   become: yes
@@ -124,6 +123,9 @@
   become_user: "{{ app_own_user }}"
 
 - name: フォルダ権限の変更
-  shell: |
-    chown -R apache:apache /var/www/html/laravelapp
+  file:
+    path: /var/www/html/laravelapp
+    owner: apache
+    group: apache
   become: yes
+

@@ -118,8 +118,7 @@
     - laravel
 
 - name: create helper file
-  shell: |
-    php artisan ide-helper:generate
+  command: php artisan ide-helper:generate
   args:
     chdir: /var/www/html/laravelapp
   become: yes
@@ -161,8 +160,11 @@
     - laravel
 
 - name: フォルダ権限の変更
-  shell: |
-    chown -R www-data:www-data /var/www/html/laravelapp
+  file:
+    path: /var/www/html/laravelapp
+    owner: www-data
+    group: www-data
   become: yes
   tags:
     - laravel
+

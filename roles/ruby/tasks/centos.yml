@@ -25,8 +25,7 @@
   become: yes # use sudo
 
 - name: Install ruby-build
-  shell: |
-    ~/.rbenv/plugins/ruby-build/install.sh
+  command: ~/.rbenv/plugins/ruby-build/install.sh
   become: yes # use sudo
 
 - name: Install Related Pakages

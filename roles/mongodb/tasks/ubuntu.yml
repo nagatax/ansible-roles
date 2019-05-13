@@ -4,8 +4,7 @@
 ##################################################
 
 - name: Add key for MongoDB
-  shell: |
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
   become: yes # use sudo
 
 - name: Register MongoDB repository

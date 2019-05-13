@@ -1,0 +1,17 @@
+parseable: true
+quiet: true
+
+# [301] Commands should not change things if nothing needs doing
+# [303] curl used in place of get_url or uri module
+# [306] Shells that use pipes should set the pipefail option
+# [403] Package installs should not use latest
+# [701] No 'galaxy_info' found
+skip_list:
+  - '301'
+  - '303'
+  - '306'
+  - '403'
+  - '701'
+
+use_default_rules: true
+verbosity: 1
