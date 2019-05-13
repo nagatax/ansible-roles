@@ -18,7 +18,8 @@
       tags: mailhog
     - mariadb
     - memcached
-    - minio
+    - name: minio
+      tags: minio
     - mongodb
     - nginx
     - php

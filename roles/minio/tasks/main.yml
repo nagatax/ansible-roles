@@ -9,9 +9,6 @@
     dest: /usr/local/bin/minio
     checksum: sha256:40f52dbc3cc5fc340e9aacee9b09d6d57464892657230b3b2b8316bbfff18a31
     mode: 0755
-  become: yes # use sudo
-  tags:
-    - minio
 
 - name: Install minio client
   get_url:
@@ -19,7 +16,3 @@
     dest: /usr/local/bin/mc
     checksum: sha256:5c958946076f53c99a319515e3bfe2b8f58d4db171a828b00356e8c08d98e22a
     mode: 0755
-  become: yes # use sudo
-  tags:
-    - minio
-
