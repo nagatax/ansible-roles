@@ -48,8 +48,8 @@ Vagrant.configure("2") do |config|
 
     # Provision
     web.vm.provision "shell",
-      inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml --tags=times"
-
+      # inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php"
+      inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml"
   end
 
 end
