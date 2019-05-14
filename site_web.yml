@@ -16,7 +16,8 @@
       tags: go
     - name: jenkins
       tags: jenkins
-    - laravel
+    - name: laravel
+      tags: laravel
     - name: mailhog
       tags: mailhog
     - name: mariadb
@@ -29,9 +30,13 @@
       tags: mongodb
     - name: nginx
       tags: nginx
-    - php
+    - name: php
+      tags: php
     - name: redis
       tags: redis
-    - ruby
-    - yarn
-#    - deploy
+    - name: ruby
+      tags: ruby
+    - name: yarn
+      tags: yarn
+    - name: deploy
+      tags: deploy

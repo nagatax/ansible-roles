@@ -10,6 +10,7 @@
     - mailhog
     - mariadb
     - minio
+    - memcached
     - mongodb
     - nginx
     - php
@@ -18,4 +19,3 @@
     - ssh
     - yarn
     - web_server
-

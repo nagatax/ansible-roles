@@ -8,25 +8,21 @@
     repo: https://github.com/rbenv/rbenv.git
     dest: ~/.rbenv
     version: master
-  become: yes # use sudo
 
 - name: Install rbenv
   shell: |
     echo 'export PATH=~/.rbenv/bin:$PATH' >> ~/.bash_profile
     ~/.rbenv/bin/rbenv init
     source ~/.bash_profile
-  become: yes # use sudo
 
 - name: Download ruby-build
   git:
     repo: https://github.com/rbenv/ruby-build.git
     dest: ~/.rbenv/plugins/ruby-build
     version: master
-  become: yes # use sudo
 
 - name: Install ruby-build
   command: ~/.rbenv/plugins/ruby-build/install.sh
-  become: yes # use sudo
 
 - name: Install Related Pakages
   yum:
@@ -34,11 +30,9 @@
       - openssl-devel
       - readline-devel
       - zlib-devel
-  become: yes # use sudo
 
 - name: Install ruby
   shell: |
     ~/.rbenv/bin/rbenv install 2.6.0
     echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
     ~/.rbenv/bin/rbenv global 2.6.0
-  become: yes # use sudo

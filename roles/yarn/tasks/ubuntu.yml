@@ -6,24 +6,20 @@
 - name: Register NodeJS repository
   shell: |
     curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
-  become: yes # use sudo
 
 - name: Install NodeJS
   apt:
     name: nodejs
     state: present
     update_cache: yes
-  become: yes # use sudo
 
 - name: Register Yarn repository
   shell: |
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  become: yes # use sudo
 
 - name: Install Yarn
   apt:
     name: yarn
     state: present
     update_cache: yes
-  become: yes # use sudo

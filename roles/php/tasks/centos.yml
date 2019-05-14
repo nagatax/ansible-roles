@@ -28,7 +28,6 @@
       - php-xml
     state: present
     enablerepo: remi-php72
-  become: yes # use sudo
   notify:
     - restart_apache_redhat
 
@@ -36,7 +35,6 @@
   copy:
     src: zzmyphp.ini
     dest: /etc/php.d/zzmyphp.ini
-  become: yes # use sudo
   notify:
     - restart_apache_redhat
 
@@ -44,5 +42,4 @@
   shell: |
     set -o pipefail
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer
-  become: yes # use sudo
 

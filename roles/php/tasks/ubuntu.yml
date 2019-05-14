@@ -26,9 +26,7 @@
       - php7.2-xml
       - php7.2-zip
     state: present
-  become: yes # use sudo
 
 - name: Install Composer
   shell: |
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer
-  become: yes # use sudo
