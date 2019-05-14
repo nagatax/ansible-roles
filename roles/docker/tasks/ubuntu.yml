@@ -11,30 +11,25 @@
       - curl
       - software-properties-common
     state: present
-  become: yes # use sudo
 
 - name: Install GPG public key
   shell: |
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  become: yes # use sudo
 
 - name: Setting apt repository
   shell: |
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  become: yes # use sudo
 
 - name: Install Docker
   shell: |
     apt update
     apt install -y docker-ce
-  become: yes # use sudo
 
 - name: Start Docker and enable autostart
   systemd:
     name: docker
     state: started
     enabled: yes
-  become: yes # use sudo
 
 - name: Install Docker Compose
   get_url:
@@ -42,5 +37,3 @@
     dest: /usr/local/bin/docker-compose
     checksum: sha256:bee6460f96339d5d978bb63d17943f773e1a140242dfa6c941d5e020a302c91b
     mode: 0755
-  become: yes # use sudo
-

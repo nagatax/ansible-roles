@@ -11,3 +11,8 @@ describe service(service_name) do
   it { should be_enabled }
   it { should be_running }
 end
+
+describe file('/usr/local/bin/docker-compose') do
+  it { should be_file }
+  it { should be_executable }
+end

@@ -10,7 +10,8 @@
   roles:
     - name: apache
       tags: apache
-    - docker
+    - name: docker
+      tags: docker
     - name: go
       tags: go
     - jenkins
