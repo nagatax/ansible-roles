@@ -11,25 +11,21 @@
       - perl-CPAN
       - perl-Test-Harness
     state: present
-  become: yes # use sudo
 
 - name: Set CPAN Configuration
   shell: |
     set -o pipefail
     (echo y;echo o conf prerequisites_policy follow;echo o conf commit) | cpan
-  become: yes # use sudo
 
 - name: Install perl modules
   shell: |
     perl -MCPAN -e 'CPAN::Shell->install("Test::More")'
-  become: yes # use sudo
 
 - name: Download file with check (sha256)
   get_url:
     url: "https://www.memcached.org/files/{{ version }}.tar.gz"
     dest: /usr/local/src/
     checksum: "{{ checksum }}"
-  become: yes # use sudo
 
 - name: Install memcached
   shell: |
@@ -39,5 +35,11 @@
     make && make test && make install
   args:
     chdir: /usr/local/src/
-  become: yes # use sudo
 
+- name: Create symlinks.
+  file:
+    src: /usr/local/memcached/bin/{{ item }}
+    dest: /usr/local/bin/{{ item }}
+    state: link
+  with_items:
+    - "memcached"

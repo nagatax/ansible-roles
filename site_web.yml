@@ -21,11 +21,14 @@
       tags: mailhog
     - name: mariadb
       tags: mariadb
-    - memcached
+    - name: memcached
+      tags: memcached
     - name: minio
       tags: minio
-    - mongodb
-    - nginx
+    - name: mongodb
+      tags: mongodb
+    - name: nginx
+      tags: nginx
     - php
     - name: redis
       tags: redis

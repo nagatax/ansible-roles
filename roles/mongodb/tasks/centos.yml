@@ -7,18 +7,15 @@
   copy:
     src: mongodb.repo
     dest: /etc/yum.repos.d/mongodb.repo
-  become: yes # use sudo
 
 - name: Install MongoDB
   yum:
     name: mongodb-org
     state: present
     update_cache: yes
-  become: yes # use sudo
 
 - name: Start mongodb and Enable autostart
   systemd:
     name: mongod
     state: started
     enabled: yes
-  become: yes # use sudo

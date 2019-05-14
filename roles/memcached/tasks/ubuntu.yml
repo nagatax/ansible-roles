@@ -8,4 +8,3 @@
     name: memcached
     state: present
     update_cache: yes
-  become: yes # use sudo
