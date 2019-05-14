@@ -7,7 +7,6 @@
   apt:
     name: apache2
     state: present
-  become: yes # use sudo
 
 - name: Copy apache2.conf to server's directory
   template:
@@ -16,7 +15,6 @@
     owner: root
     group: root
     mode: 0644
-  become: yes # use sudo
   notify:
     - restart_apache_debian
 
@@ -27,7 +25,6 @@
     owner: root
     group: root
     mode: 0644
-  become: yes # use sudo
   notify:
     - restart_apache_debian
 
@@ -35,7 +32,6 @@
   shell: |
     a2enmod rewrite
     systemctl restart apache2
-  become: yes # use sudo
   notify:
     - restart_apache_debian
 
@@ -44,4 +40,3 @@
     name: apache2
     state: started
     enabled: yes
-  become: yes # use sudo

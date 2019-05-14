@@ -7,7 +7,6 @@
   yum:
     name: httpd
     state: present
-  become: yes # use sudo
 
 - name: Copy httpd.conf to server's directory
   template:
@@ -16,7 +15,6 @@
     owner: root
     group: root
     mode: 0644
-  become: yes # use sudo
   notify:
     - restart_apache_redhat
 
@@ -27,7 +25,6 @@
     owner: root
     group: root
     mode: 0644
-  become: yes # use sudo
   notify:
     - restart_apache_redhat
 
@@ -36,7 +33,6 @@
     name: httpd
     state: started
     enabled: yes
-  become: yes # use sudo
 
 - name: Allow ports for firewalld
   firewalld:
