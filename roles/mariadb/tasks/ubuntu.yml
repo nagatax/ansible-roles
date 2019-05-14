@@ -6,7 +6,6 @@
 - name: Install repository of MariaDB
   shell: |
     curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
-  become: yes # use sudo
 
 - name: Install MariaDB
   apt:
@@ -19,12 +18,10 @@
       - python-setuptools
     state: present
     update_cache: yes
-  become: yes # use sudo
 
 - name: Install MySQL-python
   pip:
     name: MySQL-python
-  become: yes # use sudo
 
 - name: Copy my.cnf template
   template:
@@ -33,7 +30,6 @@
     owner: root
     group: root
     mode: 0644
-  become: yes # use sudo
   notify:
     - restart_mariadb
 
@@ -42,14 +38,12 @@
     name: mariadb
     state: started
     enabled: yes
-  become: yes # use sudo
 
 - name: Set root's password
   mysql_user:
     name: root
     host: localhost
     password: "{{ mysql_root_password }}"
-  become: yes # use sudo
 
 - name: Copy .my.cnf template
   template:
@@ -58,4 +52,3 @@
     owner: root
     group: root
     mode: 0644
-  become: yes # use sudo

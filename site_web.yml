@@ -19,7 +19,8 @@
     - laravel
     - name: mailhog
       tags: mailhog
-    - mariadb
+    - name: mariadb
+      tags: mariadb
     - memcached
     - name: minio
       tags: minio
