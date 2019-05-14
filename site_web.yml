@@ -14,7 +14,8 @@
       tags: docker
     - name: go
       tags: go
-    - jenkins
+    - name: jenkins
+      tags: jenkins
     - laravel
     - name: mailhog
       tags: mailhog

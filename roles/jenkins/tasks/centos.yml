@@ -8,13 +8,11 @@
     url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
     dest: /etc/yum.repos.d/jenkins.repo
     checksum: sha256:9d836919c158c4189aae93e892f3ff4ceea25a23ac352dc2df26494286ea146c
-  become: yes # use sudo
 
 - name: Import key.
   rpm_key:
     state: present
     key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-  become: yes # use sudo
 
 - name: Install OpenJDK
   yum:
@@ -22,18 +20,15 @@
       - java-1.8.0-openjdk
       - java-1.8.0-openjdk-devel
     state: present
-  become: yes # use sudo
 
 - name: Install jenkins packages
   yum:
     name:
       - jenkins
     state: present
-  become: yes # use sudo
 
 - name: Start jenkins and Enable autostart
   systemd:
     name: jenkins
     state: started
     enabled: yes
-  become: yes # use sudo

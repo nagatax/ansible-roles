@@ -6,11 +6,7 @@
 - name: Setting of CentOS
   include_tasks: centos.yml
   when: ansible_os_family == "RedHat"
-  tags:
-    - jenkins
 
 - name: Setting of Ubuntu
   include_tasks: ubuntu.yml
   when: ansible_os_family == "Debian"
-  tags:
-    - jenkins
