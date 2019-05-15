@@ -47,11 +47,12 @@ Vagrant.configure("2") do |config|
     end
 
     # Provision
-    web.vm.provision "shell",
-      # inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=apache"
-      # inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml"
-      inline: "sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml"
-      # inline: "sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=apache"
+    web.vm.provision "shell", inline: <<-SHELL
+      # sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=apache
+      # sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
+      # sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
+      sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=docker
+    SHELL
   end
 
 end

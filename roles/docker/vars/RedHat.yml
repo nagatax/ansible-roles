@@ -1,0 +1,9 @@
+---
+##################################################
+# Define default values
+##################################################
+
+required_packages:
+  - net-tools
+
+docker_package: docker

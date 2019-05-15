@@ -3,10 +3,45 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
-  when: ansible_os_family == "RedHat"
+# 環境別の変数の読み込み
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
-  when: ansible_os_family == "Debian"
+# 実行に必要なパッケージのインストール
+- name: Install related packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ required_packages }}"
+
+# Debian系OSの設定
+- block:
+  - name: Add an Apt signing key, uses whichever key is at the URL
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  - apt_repository:
+      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+      state: present
+  when: ansible_os_family == "Debian"  
+
+# Dockerのインストール
+- name: Install Docker
+  package:
+    name: "{{ docker_package }}"
+    # update_cache: yes
+
+# サービスの設定
+- name: Start Docker and enable autostart
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+# Docker Composeのインストール
+- name: Install Docker Compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    checksum: sha256:bee6460f96339d5d978bb63d17943f773e1a140242dfa6c941d5e020a302c91b
+    mode: 0755
