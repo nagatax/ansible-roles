@@ -18,7 +18,7 @@
     rpm_key:
       state: present
       key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-  when: ansible_os_family == "RedHat"  
+  when: ansible_os_family == "RedHat"
 
 # Debian系OSの設定
 - block:
@@ -26,11 +26,12 @@
     apt_key:
       url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
       state: present
-  - apt_repository:
+  - name: Add jenkins's repository.
+    apt_repository:
       repo: "deb http://pkg.jenkins.io/debian-stable binary/"
       state: present
       filename: jenkins
-  when: ansible_os_family == "Debian"  
+  when: ansible_os_family == "Debian"
 
 # 関連パッケージのインストール
 - name: Install OpenJDK
