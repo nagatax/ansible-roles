@@ -3,6 +3,7 @@
 - name: web
   roles:
     - apache
+    - common
     - docker
     - go
     - jenkins
