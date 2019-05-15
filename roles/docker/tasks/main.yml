@@ -23,13 +23,12 @@
   - apt_repository:
       repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
       state: present
-  when: ansible_os_family == "Debian"  
+  when: ansible_os_family == "Debian" 
 
 # Dockerのインストール
 - name: Install Docker
   package:
     name: "{{ docker_package }}"
-    # update_cache: yes
 
 # サービスの設定
 - name: Start Docker and enable autostart

@@ -3,10 +3,51 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
-  when: ansible_os_family == "RedHat"
+# 環境別の変数の読み込み
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
-  when: ansible_os_family == "Debian"
+# RedHat系OSの設定
+- block:
+  - name: Add Jenkins Repository.
+    yum_repository:
+      name: jenkins.repo
+      description: jenkins repository
+      baseurl: https://pkg.jenkins.io/redhat-stable/
+  - name: Import key.
+    rpm_key:
+      state: present
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+  when: ansible_os_family == "RedHat"  
+
+# Debian系OSの設定
+- block:
+  - name: Add an Apt signing key, uses whichever key is at the URL
+    apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+  - apt_repository:
+      repo: "deb http://pkg.jenkins.io/debian-stable binary/"
+      state: present
+      filename: jenkins
+  when: ansible_os_family == "Debian"  
+
+# 関連パッケージのインストール
+- name: Install OpenJDK
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ required_packages }}"
+
+# jenkinsのインストール
+- name: Install jenkins packages
+  package:
+    name: "{{ jenkins_package }}"
+    state: present
+
+# サービスの設定
+- name: Start jenkins and Enable autostart
+  systemd:
+    name: "{{ jenkins_package }}"
+    state: started
+    enabled: yes

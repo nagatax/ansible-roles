@@ -1,0 +1,10 @@
+---
+##################################################
+# Define default values
+##################################################
+
+required_packages:
+  - java-1.8.0-openjdk
+  - java-1.8.0-openjdk-devel
+
+jenkins_package: jenkins
