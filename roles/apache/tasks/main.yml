@@ -3,10 +3,76 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
+# 環境別の変数の読み込み
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
+
+# apacheのインストール
+- name: Install apache
+  package:
+    name: "{{ apache_service }}"
+    state: present
+
+# apacheの起動
+- name: Start apache and Enable autostart
+  systemd:
+    name: "{{ apache_service }}"
+    state: started
+    enabled: yes
+
+# RedHat系OSの設定
+- block:
+  - name: Copy httpd.conf to server's directory
+    template:
+      src: centos/httpd.conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart_apache_redhat
+  - name: Copy vhosts.conf to server's directory
+    template:
+      src: centos/vhosts.conf.j2
+      dest: /etc/httpd/conf.d/vhosts.conf
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart_apache_redhat
+  # - name: Allow ports for firewalld
+  #   firewalld:
+  #     port: "{{ item }}"
+  #     permanent: yes
+  #     immediate: yes
+  #     state: enabled
+  #   with_items:
+  #     - 80
+  #     - 443
   when: ansible_os_family == "RedHat"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
+# Debian系OSの設定
+- block:
+  - name: Copy apache2.conf to server's directory
+    template:
+      src: ubuntu/apache2.conf.j2
+      dest: /etc/apache2/apache2.conf
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart_apache_debian
+  - name: Copy vhosts.conf to server's directory
+    template:
+      src: ubuntu/000-default.conf.j2
+      dest: /etc/apache2/sites-available/000-default.conf
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart_apache_debian
+  - name: Enable mod_rewrite
+    shell: |
+      a2enmod rewrite
+      systemctl restart apache2
   when: ansible_os_family == "Debian"
