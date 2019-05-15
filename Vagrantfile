@@ -5,8 +5,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "bento/centos-7.6"
-  #config.vm.box = "ubuntu/bionic64"
+  # config.vm.box = "bento/centos-7.6"
+  config.vm.box = "ubuntu/bionic64"
 
   # The settings within config.ssh relate to configuring how Vagrant will access
   # your machine over SSH. As with most Vagrant settings, the defaults are
@@ -48,8 +48,10 @@ Vagrant.configure("2") do |config|
 
     # Provision
     web.vm.provision "shell",
-      # inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php"
-      inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml"
+      # inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=apache"
+      # inline: "sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml"
+      inline: "sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml"
+      # inline: "sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=apache"
   end
 
 end
