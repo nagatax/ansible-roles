@@ -41,7 +41,7 @@ class Package
     },
     ntp: {
       redhat: { name: 'ntp',   daemon: 'ntpd' },
-      ubuntu: { name: 'ntp',   daemon: 'ntp'  },
+      ubuntu: { name: '',      daemon: 'systemd-timesyncd'  },
       others: { name: 'ntp',   daemon: 'ntpd' }
     },
     ssh: {

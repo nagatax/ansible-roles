@@ -19,16 +19,19 @@
 
 - name: Update yum packages
   yum:
-    name: "*"
+    name: '*'
     state: latest
     update_cache: yes
   when: ansible_os_family == "RedHat"
 
-- name: Update apt packages
-  apt:
-    name: "*"
-    state: latest
-    update_cache: yes
+- block:
+  - name: Update package's information
+    apt:
+      update_cache: yes
+  - name: Update packages
+    apt:
+      name: "*"
+      state: latest
   when: ansible_os_family == "Debian"
 
 - name: Install base packages
@@ -40,7 +43,7 @@
       - unzip
       - vim
       - wget
-    state: present
+    state: latest
 
 - name: SELinux permissived
   selinux:

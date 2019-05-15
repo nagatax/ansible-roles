@@ -7,6 +7,7 @@
   git:
     repo: "https://github.com/nagatax/laravel-app-for-deploy.git"
     dest: "{{ deploy_laravel_root }}"
+    version: master
     accept_hostkey: True
 
 # - name: Composerで依存解決

@@ -16,6 +16,6 @@ describe package('git') do
 end
 
 # SELinux should be permissive.
-describe selinux do
+describe selinux, :if => os[:family] == 'redhat' do
   it { should be_permissive }
 end

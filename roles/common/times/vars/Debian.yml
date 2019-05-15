@@ -3,4 +3,4 @@
 # Define default values
 ##################################################
 
-ntp_service: "ntp"
+ntp_service: "systemd-timesyncd"
