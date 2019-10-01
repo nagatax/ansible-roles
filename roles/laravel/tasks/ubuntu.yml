@@ -18,7 +18,7 @@
   composer:
     command: require
     global_command: yes
-    arguments: laravel/installer=~1.1
+    arguments: laravel/installer
   become: yes
   become_user: "{{ app_own_user }}"
   when: not is_laravel_folder.stat.exists
