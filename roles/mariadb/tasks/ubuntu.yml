@@ -3,9 +3,14 @@
 # Define tasks
 ##################################################
 
+- name: Download a setting up script of repository
+  get_url:
+      url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      dest: ~/mariadb_repo_setup
+      mode: 0755
+
 - name: Install repository of MariaDB
-  shell: |
-    curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+  command: ~/mariadb_repo_setup
 
 - name: Install MariaDB
   apt:
