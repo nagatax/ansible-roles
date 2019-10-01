@@ -5,6 +5,3 @@
 
 # rootユーザのパスワード
 mysql_root_password: secret
-
-# homesteadユーザのパスワード
-mysql_db_password: secret

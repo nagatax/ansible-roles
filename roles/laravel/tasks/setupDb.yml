@@ -3,17 +3,17 @@
 # Define tasks
 ##################################################
 
-- name: Create homestead Database
+- name: Create Database
   mysql_db:
-    name: homestead
+    name: "{{ app_db }}"
     state: present
   become: yes # use sudo
 
-- name: MySQLユーザー homestead を作成し，homestead.* にすべての権限を与える
+- name: MySQLユーザーを作成し，アプリケーションで使用するDBのすべての権限を与える
   mysql_user:
-    name: homestead
-    password: "{{ mysql_db_password }}"
-    priv: "homestead.*:ALL,GRANT"
+    name: "{{ app_db_user }}"
+    password: "{{ app_db_password }}"
+    priv: "{{ app_db_user }}.*:ALL,GRANT"
     host: localhost
     state: present
   become: yes # use sudo

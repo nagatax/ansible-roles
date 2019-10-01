@@ -8,3 +8,12 @@ document_root: /var/www/html
 
 # アプリケーションフォルダの所有者
 app_own_user: vagrant
+
+# アプリケーションDB
+app_db: homestead
+
+# アプリケーションDBユーザ
+app_db_user: homestead
+
+# アプリケーションDBユーザのパスワード
+app_db_password: secret
