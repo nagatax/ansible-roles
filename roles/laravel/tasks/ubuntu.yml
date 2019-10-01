@@ -5,7 +5,7 @@
 
 - name: laravelがセットアップ済みか確認
   stat:
-    path: /var/www/html/laravelapp/artisan
+    path: "{{ document_root }}/artisan"
     get_checksum: false
     get_md5: false
   register: is_laravel_folder
@@ -27,9 +27,11 @@
 
 - name: laravelのセットアップ
   shell: |
-    cd /var/www/html/laravelapp
-    ~/.config/composer/vendor/bin/laravel new
+    ~/.composer/vendor/bin/laravel new
     chmod +w storage bootstrap/cache
+  args:
+    chdir: "{{ document_root }}"
+    warn: false
   become: yes
   become_user: "{{ app_own_user }}"
   when: not is_laravel_folder.stat.exists
@@ -39,7 +41,7 @@
 - name: Composer update
   composer:
     command: update
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -50,7 +52,7 @@
     command: require
     no-dev: yes
     arguments: friendsofphp/php-cs-fixer
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -61,7 +63,7 @@
     command: require
     no-dev: yes
     arguments: squizlabs/php_codesniffer
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -72,7 +74,7 @@
     command: require
     no-dev: yes
     arguments: phpmd/phpmd=@stable
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -82,15 +84,17 @@
   composer:
     command: require
     arguments: laravel/horizon
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
     - laravel
 
 - name: Install laravel-mix
-  yarn:
-    path: /var/www/html/laravelapp
+  shell: |
+    yarn install
+  args:
+    chdir: "{{ document_root }}"
   become: yes
   tags:
     - laravel
@@ -100,7 +104,7 @@
     command: require
     no-dev: yes
     arguments: barryvdh/laravel-debugbar
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -111,7 +115,7 @@
     command: require
     no-dev: yes
     arguments: barryvdh/laravel-ide-helper
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -120,7 +124,7 @@
 - name: create helper file
   command: php artisan ide-helper:generate
   args:
-    chdir: /var/www/html/laravelapp
+    chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -131,7 +135,7 @@
     command: require
     no-dev: yes
     arguments: laravel/telescope
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -142,7 +146,7 @@
     php artisan telescope:install
     php artisan migrate
   args:
-    chdir: /var/www/html/laravelapp
+    chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -153,7 +157,7 @@
     command: require
     no-dev: yes
     arguments: predis/predis
-    working_dir: /var/www/html/laravelapp
+    working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
@@ -161,7 +165,7 @@
 
 - name: フォルダ権限の変更
   file:
-    path: /var/www/html/laravelapp
+    path: "{{ document_root }}"
     owner: www-data
     group: www-data
   become: yes
