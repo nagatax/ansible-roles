@@ -28,15 +28,11 @@
       - php-xml
     state: present
     enablerepo: remi-php72
-  notify:
-    - restart_apache_redhat
 
 - name: Copy custom php.ini
   copy:
     src: zzmyphp.ini
     dest: /etc/php.d/zzmyphp.ini
-  notify:
-    - restart_apache_redhat
 
 - name: Download a installer
   get_url:
