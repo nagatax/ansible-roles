@@ -26,7 +26,7 @@
     ~/.config/composer/vendor/bin/laravel new
     chmod +w storage bootstrap/cache
   args:
-    chdir: "{{ document_root }}" 
+    chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   when: not is_laravel_folder.stat.exists
