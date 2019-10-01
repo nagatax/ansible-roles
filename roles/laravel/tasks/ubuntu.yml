@@ -47,6 +47,29 @@
   tags:
     - laravel
 
+- name: Copy .env to server's directory
+  template:
+    src: .env.j2
+    dest: "{{ document_root }}/.env"
+    owner: "{{ app_own_user }}"
+    group: "{{ app_own_user }}"
+    mode: 0644
+  tags:
+    - laravel
+
+- name: laravelのセットアップ2
+  shell: |
+    cp -a .env.example .env
+    php artisan key:generate
+  args:
+    chdir: "{{ document_root }}"
+    warn: false
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists
+  tags:
+    - laravel
+
 - name: PHP Coding Standards Fixer
   composer:
     command: require
@@ -158,6 +181,15 @@
     no-dev: yes
     arguments: predis/predis
     working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
+
+- name: Generate a key
+  shell: php artisan key:generate
+  args:
+    chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
   tags:
