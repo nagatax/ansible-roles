@@ -1,0 +1,3 @@
+# ,gitignoreファイル以外を除外する
+*
+!.gitignore
