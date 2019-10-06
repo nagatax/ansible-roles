@@ -28,6 +28,7 @@
   - name: Update package's information
     apt:
       update_cache: yes
+
   - name: Update packages
     apt:
       name: "*"
