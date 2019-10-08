@@ -1,0 +1,10 @@
+---
+##################################################
+# ハンドラを定義する
+##################################################
+
+- name: restart_mysqld
+  systemd:
+    name: "{{ mysql_service }}"
+    state: restarted
+  become: yes # use sudo

@@ -1,0 +1,59 @@
+---
+##################################################
+# Define tasks
+##################################################
+
+- name: Download a setting up script of repository
+  get_url:
+      url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      dest: ~/mariadb_repo_setup
+      mode: 0755
+
+- name: Install repository of MariaDB
+  command: ~/mariadb_repo_setup
+
+- name: Install MariaDB
+  apt:
+    name:
+      - libmysqlclient-dev
+      - mariadb-client
+      - mariadb-server
+      - python
+      - python-pip
+      - python-setuptools
+    state: present
+    update_cache: yes
+
+- name: Install MySQL-python
+  pip:
+    name: MySQL-python
+
+- name: Copy my.cnf template
+  template:
+    src: my.cnf.ubuntu.j2
+    dest: /etc/mysql/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart_mariadb
+
+- name: Enable MariaDB service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Set root's password
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+
+- name: Copy .my.cnf template
+  template:
+    src: my.client.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644

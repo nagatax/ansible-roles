@@ -1,0 +1,16 @@
+---
+##################################################
+# ロール変数の値を定義する
+##################################################
+
+mysql_pkgs:
+  - mysql-community-client
+  - mysql-community-common
+  - mysql-community-devel
+  - mysql-community-libs
+  - mysql-community-libs-compat
+  - mysql-community-server
+  - MySQL-python
+  - python2-PyMySQL
+
+mysql_conf_dir: "/etc/"
