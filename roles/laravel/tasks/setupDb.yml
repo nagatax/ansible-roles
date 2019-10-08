@@ -9,7 +9,7 @@
     state: present
   become: yes # use sudo
 
-- name: MySQLユーザーを作成し，アプリケーションで使用するDBのすべての権限を与える
+- name: DBユーザーを作成し，アプリケーションで使用するDBのすべての権限を与える
   mysql_user:
     name: "{{ app_db_user }}"
     password: "{{ app_db_password }}"
@@ -17,3 +17,6 @@
     host: localhost
     state: present
   become: yes # use sudo
+
+- name: set mysql_native_password
+  command: mysql --user root --password={{ mysql_root_db_pass }} --connect-expired-password --execute="ALTER USER '{{ app_db_user }}'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ app_db_password }}';"
