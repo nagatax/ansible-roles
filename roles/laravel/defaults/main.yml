@@ -16,7 +16,8 @@ app_db: homestead
 app_db_user: homestead
 
 # アプリケーションDBユーザのパスワード
-app_db_password: secret
+app_db_password: "Homestead2$"
+
 # インストールするプラグイン
 app_plugin:
   isPhpCs: true
