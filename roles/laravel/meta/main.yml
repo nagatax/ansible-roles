@@ -4,6 +4,7 @@
 ##################################################
 
 dependencies:
-  - mariadb
+  - apache
+  - mysql
   - php
   - yarn
