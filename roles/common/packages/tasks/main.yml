@@ -17,34 +17,29 @@
     update_cache: yes
   when: ansible_os_family == "RedHat"
 
-- name: Update yum packages
-  yum:
-    name: '*'
-    state: latest
-    update_cache: yes
+- block:
+  - name: Update pakages
+    yum:
+      name: '*'
+      state: latest
+      update_cache: yes
+  - name: Install base packages and update pakages
+    yum:
+      name: '{{ common_pkgs }}'
+      state: latest
+      update_cache: yes
   when: ansible_os_family == "RedHat"
 
 - block:
-  - name: Update package's information
-    apt:
-      update_cache: yes
-
   - name: Update packages
     apt:
-      name: "*"
+      update_cache: yes
+  - name: Install base packages and update pakages
+    apt:
+      name: '{{ common_pkgs }}'
       state: latest
+      update_cache: yes
   when: ansible_os_family == "Debian"
-
-- name: Install base packages
-  package:
-    name:
-      - curl
-      - git
-      - ntp
-      - unzip
-      - vim
-      - wget
-    state: latest
 
 - name: SELinux permissived
   selinux:
