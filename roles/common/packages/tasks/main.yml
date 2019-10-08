@@ -48,7 +48,7 @@
   when: ansible_os_family == "RedHat" and ansible_selinux.config_mode == 'enforcing'
 
 - block:
-  - name: firewalld のインストール 
+  - name: Install firewalld
     yum:
       name: firewalld
       state: latest

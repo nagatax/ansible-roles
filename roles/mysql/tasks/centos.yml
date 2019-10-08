@@ -29,10 +29,20 @@
   register: root_password
 
 - name: update expired root user password
-  command: mysql --user root --password={{ root_password.stdout }} --connect-expired-password --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_db_pass }}';"
+  command: >
+    mysql
+    --user root
+    --password={{ root_password.stdout }}
+    --connect-expired-password
+    --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_db_pass }}';"
 
 - name: set mysql_native_password
-  command: mysql --user root --password={{ mysql_root_db_pass }} --connect-expired-password --execute="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_db_pass }}';"
+  command: >
+    mysql
+    --user root
+    --password={{ mysql_root_db_pass }}
+    --connect-expired-password
+    --execute="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_db_pass }}';"
 
 # - name: Set root's password
 #   mysql_user:

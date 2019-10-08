@@ -19,4 +19,9 @@
   become: yes # use sudo
 
 - name: set mysql_native_password
-  command: mysql --user root --password={{ mysql_root_db_pass }} --connect-expired-password --execute="ALTER USER '{{ app_db_user }}'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ app_db_password }}';"
+  command: >
+    mysql
+    --user root
+    --password={{ mysql_root_db_pass }}
+    --connect-expired-password
+    --execute="ALTER USER '{{ app_db_user }}'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ app_db_password }}';"
