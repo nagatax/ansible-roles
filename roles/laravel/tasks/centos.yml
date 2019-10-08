@@ -11,6 +11,8 @@
   register: is_laravel_folder
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: Laravel Installerのインストール
   composer:
@@ -20,6 +22,8 @@
   become: yes
   become_user: "{{ app_own_user }}"
   when: not is_laravel_folder.stat.exists
+  tags:
+    - laravel
 
 - name: laravelのセットアップ
   shell: |
@@ -30,6 +34,40 @@
   become: yes
   become_user: "{{ app_own_user }}"
   when: not is_laravel_folder.stat.exists
+  tags:
+    - laravel
+
+- name: Composer update
+  composer:
+    command: update
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
+
+- name: Copy .env to server's directory
+  template:
+    src: .env.j2
+    dest: "{{ document_root }}/.env"
+    owner: "{{ app_own_user }}"
+    group: "{{ app_own_user }}"
+    mode: 0644
+  tags:
+    - laravel
+
+- name: laravelのセットアップ2
+  shell: |
+    cp -a .env.example .env
+    php artisan key:generate
+  args:
+    chdir: "{{ document_root }}"
+    warn: false
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists
+  tags:
+    - laravel
 
 - name: PHP Coding Standards Fixer
   composer:
@@ -39,6 +77,8 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: PHP_CodeSniffer
   composer:
@@ -48,6 +88,8 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: PHP Mess Detector
   composer:
@@ -57,6 +99,8 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: Install Horizon
   composer:
@@ -65,11 +109,15 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: Install laravel-mix
   yarn:
     path: "{{ document_root }}"
   become: yes
+  tags:
+    - laravel
 
 - name: Install laravel-debugbar
   composer:
@@ -79,6 +127,8 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: Install laravel helper
   composer:
@@ -88,6 +138,8 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: create helper file
   command: php artisan ide-helper:generate
@@ -95,6 +147,8 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: Install Laravel Telescope
   composer:
@@ -104,6 +158,8 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: アセットの公開
   shell: |
@@ -113,6 +169,8 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: Install predis
   composer:
@@ -122,6 +180,17 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
+
+- name: Generate a key
+  command: php artisan key:generate
+  args:
+    chdir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  tags:
+    - laravel
 
 - name: フォルダ権限の変更
   file:
@@ -129,3 +198,5 @@
     owner: apache
     group: apache
   become: yes
+  tags:
+    - laravel
