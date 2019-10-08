@@ -5,8 +5,9 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  # config.vm.box = "bento/centos-7.6"
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "centos/7"
+  # config.vm.box = "ubuntu/bionic64"
+
 
   # The settings within config.ssh relate to configuring how Vagrant will access
   # your machine over SSH. As with most Vagrant settings, the defaults are
@@ -31,7 +32,7 @@ Vagrant.configure("2") do |config|
     # the path on the guest to mount the folder. And the optional third
     # argument is a set of non-required options.
     # (!!注意!!)synced_folderで指定したフォルダ内は、ゲストマシン側で権限を変更できない
-    #web.vm.synced_folder "./webapp", "/var/www/html/laravelapp", mount_options: ['dmode=777','fmode=777']
+    web.vm.synced_folder "./webapp", "/var/www/html", mount_options: ['dmode=777','fmode=777']
 
     # Provider-specific configuration so you can fine-tune various
     # backing providers for Vagrant. These expose provider-specific options.
@@ -48,10 +49,14 @@ Vagrant.configure("2") do |config|
 
     # Provision
     web.vm.provision "shell", inline: <<-SHELL
-      # sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=apache
-      # sudo yum install ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
+      sudo yum update -y
+      sudo yum install python3 -y
+      pip3 install ansible
+      # cd /vagrant ; /usr/local/bin/ansible-playbook -i hosts site_common.yml --tags=packages -vvv
+      cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=apache -vvv
+      # sudo apt update && sudo apt upgrade -y
       # sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
-      sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=docker
+      # sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php
     SHELL
   end
 
