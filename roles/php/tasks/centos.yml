@@ -27,7 +27,7 @@
       - php-tokenizer
       - php-xml
     state: present
-    enablerepo: remi-php72
+    enablerepo: remi-php73
 
 - name: Copy custom php.ini
   copy:
