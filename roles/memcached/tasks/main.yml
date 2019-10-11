@@ -3,10 +3,46 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
+- block:
+  - name: Install related packages
+    yum:
+      name:
+        - libevent-devel
+        - perl-core
+        - perl-CPAN
+        - perl-Test-Harness
+      state: present
+  - name: Set CPAN Configuration
+    shell: |
+      set -o pipefail
+      (echo y;echo o conf prerequisites_policy follow;echo o conf commit) | cpan
+  - name: Install perl modules
+    command: perl -MCPAN -e 'CPAN::Shell->install("Test::More")'
+  - name: Download file with check (sha256)
+    get_url:
+      url: "https://www.memcached.org/files/{{ version }}.tar.gz"
+      dest: /usr/local/src/
+      checksum: "{{ checksum }}"
+  - name: Install memcached
+    shell: |
+      tar -zxvf "{{ version }}.tar.gz"
+      cd "{{ version }}"
+      ./configure --prefix=/usr/local/memcached
+      make && make test && make install
+    args:
+      chdir: /usr/local/src/
+  - name: Create symlinks.
+    file:
+      src: /usr/local/memcached/bin/{{ item }}
+      dest: /usr/local/bin/{{ item }}
+      state: link
+    with_items:
+      - "memcached"
   when: ansible_os_family == "RedHat"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
+- name: Install memcached
+  apt:
+    name: memcached
+    state: present
+    update_cache: yes
   when: ansible_os_family == "Debian"
