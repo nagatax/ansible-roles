@@ -3,10 +3,85 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
+- block:
+  - name: Import repository key
+    yum_repository:
+      name: mariadb
+      description: MariaDB Repo
+      baseurl: http://yum.mariadb.org/10.3/centos7-amd64
+      gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+      gpgcheck: yes
+      file: MariaDB
+  - name: Install MariaDB
+    yum:
+      name:
+        - galera
+        - rsync
+        - MariaDB-client
+        - MariaDB-server
+        - MySQL-python
+      state: present
+      enablerepo: mariadb
+  - name: Copy my.cnf template
+    template:
+      src: my.cnf.j2
+      dest: /etc/my.cnf
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart_mariadb
   when: ansible_os_family == "RedHat"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
+- block:
+  - name: Download a setting up script of repository
+    get_url:
+        url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+        dest: ~/mariadb_repo_setup
+        mode: 0755
+  - name: Install repository of MariaDB
+    command: ~/mariadb_repo_setup
+  - name: Install MariaDB
+    apt:
+      name:
+        - libmysqlclient-dev
+        - mariadb-client
+        - mariadb-server
+        - python
+        - python-pip
+        - python-setuptools
+      state: present
+      update_cache: yes
+  - name: Install MySQL-python
+    pip:
+      name: MySQL-python
+  - name: Copy my.cnf template
+    template:
+      src: my.cnf.ubuntu.j2
+      dest: /etc/mysql/my.cnf
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart_mariadb
   when: ansible_os_family == "Debian"
+
+- name: Enable MariaDB service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Set root's password
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_password }}"
+
+- name: Copy .my.cnf template
+  template:
+    src: my.client.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
