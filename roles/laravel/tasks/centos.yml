@@ -77,6 +77,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isPhpCs
   tags:
     - laravel
 
@@ -88,6 +89,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isPhpCsniffer
   tags:
     - laravel
 
@@ -99,6 +101,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isPhpmd
   tags:
     - laravel
 
@@ -109,6 +112,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isHorizon
   tags:
     - laravel
 
@@ -116,6 +120,7 @@
   yarn:
     path: "{{ document_root }}"
   become: yes
+  when: app_plugin.isLaravelMix
   tags:
     - laravel
 
@@ -127,6 +132,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isLaravelDebugbar
   tags:
     - laravel
 
@@ -138,6 +144,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isIdeHelper
   tags:
     - laravel
 
@@ -147,6 +154,7 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isIdeHelper
   tags:
     - laravel
 
@@ -158,6 +166,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isLaravelTelescope
   tags:
     - laravel
 
@@ -169,6 +178,7 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isLaravelTelescope
   tags:
     - laravel
 

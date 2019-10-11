@@ -26,7 +26,6 @@ app_plugin:
   isHorizon: false
   isLaravelMix: true
   isLaravelDebugbar: true
-  isIdeHeloper: true
+  isIdeHelper: true
   isLaravelTelescope: false
   isPredis: true
-

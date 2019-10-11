@@ -147,7 +147,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isIdeHeloper
+  when: app_plugin.isIdeHelper
   tags:
     - laravel
 
@@ -157,7 +157,7 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isIdeHeloper
+  when: app_plugin.isIdeHelper
   tags:
     - laravel
 
@@ -181,6 +181,7 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: app_plugin.isLaravelTelescope
   tags:
     - laravel
 
