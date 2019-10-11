@@ -56,4 +56,15 @@
       mode: 0644
     notify:
       - restart_mysqld
+  - name: Open mysql port
+    firewalld:
+      zone: public
+      service: mysql
+      permanent: yes
+      state: enabled
+  - name: Restart a firewalled
+    become: yes
+    systemd:
+      name: firewalld
+      state: restarted
   when: ansible_os_family == "RedHat"

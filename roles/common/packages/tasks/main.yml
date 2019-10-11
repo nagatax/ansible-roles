@@ -52,30 +52,9 @@
     yum:
       name: firewalld
       state: latest
-
-  - name: Open http port
-    firewalld:
-      zone: public
-      service: http
-      permanent: yes
-      state: enabled
-
-  - name: Open http port
-    firewalld:
-      zone: public
-      service: https
-      permanent: yes
-      state: enabled
-
-  - name: Open mysql port
-    firewalld:
-      zone: public
-      service: mysql
-      permanent: yes
-      state: enabled
-
   - name: Restart a firewalled
     become: yes
     systemd:
       name: firewalld
-      state: restarted
+      state: start
+  when: ansible_os_family == "RedHat"

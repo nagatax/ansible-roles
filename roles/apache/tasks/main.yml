@@ -40,15 +40,23 @@
       mode: 0644
     notify:
       - restart_apache_redhat
-  # - name: Allow ports for firewalld
-  #   firewalld:
-  #     port: "{{ item }}"
-  #     permanent: yes
-  #     immediate: yes
-  #     state: enabled
-  #   with_items:
-  #     - 80
-  #     - 443
+  - name: Open http port
+    firewalld:
+      zone: public
+      service: http
+      permanent: yes
+      state: enabled
+  - name: Open https port
+    firewalld:
+      zone: public
+      service: https
+      permanent: yes
+      state: enabled
+  - name: Restart a firewalled
+    become: yes
+    systemd:
+      name: firewalld
+      state: restarted
   when: ansible_os_family == "RedHat"
 
 # Debian系OSの設定
