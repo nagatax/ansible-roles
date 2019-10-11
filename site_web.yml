@@ -28,6 +28,8 @@
       tags: minio
     - name: mongodb
       tags: mongodb
+    - name: mysql
+      tags: mysql
     - name: nginx
       tags: nginx
     - name: php
