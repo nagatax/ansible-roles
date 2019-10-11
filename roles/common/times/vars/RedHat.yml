@@ -3,4 +3,4 @@
 # Define default values
 ##################################################
 
-ntp_service: "ntpd"
+ntp_service: "chronyd"

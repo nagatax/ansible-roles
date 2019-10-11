@@ -6,8 +6,14 @@
 - name: Add the OS specific varibles
   include_vars: "{{ ansible_os_family }}.yml"
 
+- name: Copy a chrony.conf
+  copy:
+    src: chrony.conf
+    dest: /etc/chrony.conf
+  when: ansible_os_family == "RedHat"
+
 - name: Start ntpd service and enable autostart
   systemd:
     name: "{{ ntp_service }}"
-    state: started
+    state: restarted
     enabled: yes
