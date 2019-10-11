@@ -3,10 +3,61 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
+- block:
+  - name: Download rbenv
+    git:
+      repo: https://github.com/rbenv/rbenv.git
+      dest: ~/.rbenv
+      version: master
+  - name: Install rbenv
+    shell: |
+      echo 'export PATH=~/.rbenv/bin:$PATH' >> ~/.bash_profile
+      ~/.rbenv/bin/rbenv init
+      source ~/.bash_profile
+  - name: Download ruby-build
+    git:
+      repo: https://github.com/rbenv/ruby-build.git
+      dest: ~/.rbenv/plugins/ruby-build
+      version: master
+  - name: Install ruby-build
+    command: ~/.rbenv/plugins/ruby-build/install.sh
+  - name: Install Related Pakages
+    yum:
+      name:
+        - openssl-devel
+        - readline-devel
+        - zlib-devel
+  - name: Install ruby
+    shell: |
+      ~/.rbenv/bin/rbenv install 2.6.0
+      echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+      ~/.rbenv/bin/rbenv global 2.6.0
   when: ansible_os_family == "RedHat"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
-  when: ansible_os_family == "Debian"
+# - block:
+#   - name: Install rbenv
+#     shell: |
+#       echo 'export PATH=~/.rbenv/bin:$PATH' >> ~/.profile
+#       ~/.rbenv/bin/rbenv init
+#       . ~/.profile
+#   - name: Download ruby-build
+#     git:
+#       repo: https://github.com/rbenv/ruby-build.git
+#       dest: ~/.rbenv/plugins/ruby-build
+#       version: master
+#   - name: Install ruby-build
+#     command: ~/.rbenv/plugins/ruby-build/install.sh
+#   - name: Install Related Pakages
+#     yum:
+#       name:
+#         - build-essential
+#         - libreadline-dev
+#         - libssl-dev
+#         - zlib1g-dev
+#   - name: Install ruby
+#     shell: |
+#       ~/.rbenv/bin/rbenv install 2.6.0
+#       echo 'eval "$(rbenv init -)"' >> ~/.profile
+#       ~/.rbenv/bin/rbenv global 2.6.0
+#   when: ansible_os_family == "Debian"
+  
