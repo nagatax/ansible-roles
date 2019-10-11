@@ -23,7 +23,7 @@
     name: mongodb-org
     state: present
     update_cache: yes
-    
+
 - name: Start mongodb and Enable autostart
   systemd:
     name: mongod

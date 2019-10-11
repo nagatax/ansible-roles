@@ -60,4 +60,3 @@
 #       echo 'eval "$(rbenv init -)"' >> ~/.profile
 #       ~/.rbenv/bin/rbenv global 2.6.0
 #   when: ansible_os_family == "Debian"
-  
