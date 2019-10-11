@@ -5,17 +5,195 @@
 
 - name: Setup DB
   include_tasks: setupDb.yml
-  tags:
-    - laravel
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
+- name: laravelがセットアップ済みか確認
+  stat:
+    path: "{{ document_root }}/artisan"
+    get_checksum: false
+    get_md5: false
+  register: is_laravel_folder
+  become: yes
+  become_user: "{{ app_own_user }}"
+
+- name: Laravel Installerのインストール
+  composer:
+    command: require
+    global_command: yes
+    arguments: laravel/installer
+  become: yes
+  become_user: "{{ app_own_user }}"
+
+- name: laravelのセットアップ
+  shell: |
+    ~/.config/composer/vendor/bin/laravel new
+    chmod +w storage bootstrap/cache
+  args:
+    chdir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists and ansible_os_family == "RedHat"
+
+- name: laravelのセットアップ
+  shell: |
+    ~/.composer/vendor/bin/laravel new
+    chmod +w storage bootstrap/cache
+  args:
+    chdir: "{{ document_root }}"
+    warn: false
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists and ansible_os_family == "Debian"
+
+- name: Composer update
+  composer:
+    command: update
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+
+- name: Copy .env to server's directory
+  template:
+    src: .env.j2
+    dest: "{{ document_root }}/.env"
+    owner: "{{ app_own_user }}"
+    group: "{{ app_own_user }}"
+    mode: 0644
+
+- name: laravelのセットアップ2
+  shell: |
+    cp -a .env.example .env
+    php artisan key:generate
+  args:
+    chdir: "{{ document_root }}"
+    warn: false
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists
+
+- name: PHP Coding Standards Fixer
+  composer:
+    command: require
+    no-dev: yes
+    arguments: friendsofphp/php-cs-fixer
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isPhpCs
+
+- name: PHP_CodeSniffer
+  composer:
+    command: require
+    no-dev: yes
+    arguments: squizlabs/php_codesniffer
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isPhpCsniffer
+
+- name: PHP Mess Detector
+  composer:
+    command: require
+    no-dev: yes
+    arguments: phpmd/phpmd=@stable
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isPhpmd
+
+- name: Install Horizon
+  composer:
+    command: require
+    arguments: laravel/horizon
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isHorizon
+
+- name: Install laravel-mix
+  shell: |
+    yarn install
+  args:
+    chdir: "{{ document_root }}"
+  become: yes
+  when: app_plugin.isLaravelMix
+
+- name: Install laravel-debugbar
+  composer:
+    command: require
+    no-dev: yes
+    arguments: barryvdh/laravel-debugbar
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isLaravelDebugbar
+
+- name: Install laravel helper
+  composer:
+    command: require
+    no-dev: yes
+    arguments: barryvdh/laravel-ide-helper
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isIdeHelper
+
+- name: create helper file
+  command: php artisan ide-helper:generate
+  args:
+    chdir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isIdeHelper
+
+- name: Install Laravel Telescope
+  composer:
+    command: require
+    no-dev: yes
+    arguments: laravel/telescope
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isLaravelTelescope
+
+- name: アセットの公開
+  shell: |
+    php artisan telescope:install
+    php artisan migrate
+  args:
+    chdir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isLaravelTelescope
+
+- name: Install predis
+  composer:
+    command: require
+    no-dev: yes
+    arguments: predis/predis
+    working_dir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+  when: app_plugin.isPredis
+
+- name: Generate a key
+  command: php artisan key:generate
+  args:
+    chdir: "{{ document_root }}"
+  become: yes
+  become_user: "{{ app_own_user }}"
+
+- name: フォルダ権限の変更
+  file:
+    path: "{{ document_root }}"
+    owner: apache
+    group: apache
+  become: yes
   when: ansible_os_family == "RedHat"
-  tags:
-    - laravel
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
+- name: フォルダ権限の変更
+  file:
+    path: "{{ document_root }}"
+    owner: www-data
+    group: www-data
+  become: yes
   when: ansible_os_family == "Debian"
-  tags:
-    - laravel
