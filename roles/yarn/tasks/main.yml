@@ -3,10 +3,35 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
+- name: Download a installer
+  get_url:
+    url: https://rpm.nodesource.com/setup_8.x
+    dest: ~/nodejs_setup
+    mode: 0755
+
+- name: Install a Composer
+  command: ~/nodejs_setup
+
+- name: Install NodeJS
+  package:
+    name: nodejs
+    state: present
+    update_cache: yes
+
+- name: Register Yarn repository
+  shell: |
+    set -o pipefail
+    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
   when: ansible_os_family == "RedHat"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
+- name: Register Yarn repository
+  shell: |
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
   when: ansible_os_family == "Debian"
+
+- name: Install Yarn
+  package:
+    name: yarn
+    state: present
+    update_cache: yes
