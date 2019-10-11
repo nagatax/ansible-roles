@@ -3,10 +3,29 @@
 # Define tasks
 ##################################################
 
-- name: Setting of CentOS
-  include_tasks: centos.yml
+- block:
+  - name: Install repository of MongoDB
+    copy:
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongodb.repo
   when: ansible_os_family == "RedHat"
 
-- name: Setting of Ubuntu
-  include_tasks: ubuntu.yml
+- block:
+  - name: Add key for MongoDB
+    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+  - name: Register MongoDB repository
+    shell: |
+      echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
   when: ansible_os_family == "Debian"
+
+- name: Install MongoDB
+  package:
+    name: mongodb-org
+    state: present
+    update_cache: yes
+    
+- name: Start mongodb and Enable autostart
+  systemd:
+    name: mongod
+    state: started
+    enabled: yes
