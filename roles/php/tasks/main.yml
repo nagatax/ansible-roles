@@ -27,28 +27,29 @@
       - php-tokenizer
       - php-xml
     state: present
-    enablerepo: remi-php73
+    enablerepo: remi-php74
   when: ansible_os_family == "RedHat"
 
 - name: Install PHP
   apt:
     name:
-      - php7.2
-      - libapache2-mod-php7.2
-      - php7.2-bcmath
-      - php7.2-cli
-      - php7.2-common
-      - php7.2-curl
-      - php7.2-dev
-      - php7.2-fpm
-      - php7.2-json
-      - php7.2-mbstring
-      - php7.2-mysql
-      - php7.2-opcache
+      - php
+      - libapache2-mod-php
+      - php-bcmath
+      - php-cli
+      - php-common
+      - php-curl
+      - php-dev
+      - php-fpm
+      - php-json
+      - php-mbstring
+      - php-mysql
+      - php-opcache
       - php-pear
-      - php7.2-pgsql
-      - php7.2-xml
-      - php7.2-zip
+      - php-pgsql
+      - php-xdebug
+      - php-xml
+      - php-zip
     state: present
   when: ansible_os_family == "Debian"
 
@@ -56,6 +57,7 @@
   copy:
     src: zzmyphp.ini
     dest: /etc/php.d/zzmyphp.ini
+  when: ansible_os_family == "RedHat"
 
 - name: Download a installer
   get_url:
