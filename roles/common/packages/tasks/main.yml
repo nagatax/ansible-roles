@@ -56,5 +56,5 @@
     become: yes
     systemd:
       name: firewalld
-      state: start
+      state: started
   when: ansible_os_family == "RedHat"
