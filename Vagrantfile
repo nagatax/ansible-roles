@@ -5,8 +5,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "centos/7"
-  # config.vm.box = "ubuntu/bionic64"
+  # config.vm.box = "centos/7"
+  config.vm.box = "ubuntu/bionic64"
 
 
   # The settings within config.ssh relate to configuring how Vagrant will access
@@ -49,14 +49,17 @@ Vagrant.configure("2") do |config|
 
     # Provision
     web.vm.provision "shell", inline: <<-SHELL
-      sudo yum update -y
-      sudo yum install python3 -y
-      pip3 install ansible
-      # cd /vagrant ; /usr/local/bin/ansible-playbook -i hosts site_common.yml --tags=packages -vvv
-      cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=apache -vvv
-      # sudo apt update && sudo apt upgrade -y
-      # sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
-      # sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php
+      # CentOS
+      #sudo yum update -y
+      #sudo yum install python3 -y
+      #pip3 install ansible
+      #cd /vagrant ; /usr/local/bin/ansible-playbook -i hosts site_common.yml --tags=packages -vvv
+      #cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=php -vvv
+      
+      # Ubuntu
+      #sudo apt update && sudo apt upgrade -y
+      #sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
+      sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php
     SHELL
   end
 
