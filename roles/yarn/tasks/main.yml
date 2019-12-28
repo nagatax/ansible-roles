@@ -5,7 +5,7 @@
 
 - name: Download a installer
   get_url:
-    url: https://rpm.nodesource.com/setup_8.x
+    url: https://rpm.nodesource.com/setup_13.x
     dest: ~/nodejs_setup
     mode: 0755
 
