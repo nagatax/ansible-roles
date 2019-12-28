@@ -7,12 +7,12 @@
   get_url:
     url: https://dl.minio.io/server/minio/release/linux-amd64/minio
     dest: /usr/local/bin/minio
-    checksum: sha256:40f52dbc3cc5fc340e9aacee9b09d6d57464892657230b3b2b8316bbfff18a31
+    checksum: sha256:63bc9f2fa95d0dc02935d98bf812b1ad2876e9330c257da404f185008c7c67df
     mode: 0755
 
 - name: Install minio client
   get_url:
     url: https://dl.minio.io/client/mc/release/linux-amd64/mc
     dest: /usr/local/bin/mc
-    checksum: sha256:5c958946076f53c99a319515e3bfe2b8f58d4db171a828b00356e8c08d98e22a
+    checksum: sha256:382b21e42ef54cca431c8889a29b473a433436b1ac3f9a287a5ab00b71d98bf1
     mode: 0755
