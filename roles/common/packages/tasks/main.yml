@@ -5,14 +5,14 @@
 
 - name: Import epel repository
   yum:
-    name: epel-release
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
     state: latest
     update_cache: yes
   when: ansible_os_family == "RedHat"
 
 - name: Import remi repository
   yum:
-    name: http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    name: http://rpms.remirepo.net/enterprise/remi-release-8.rpm
     state: latest
     update_cache: yes
   when: ansible_os_family == "RedHat"
