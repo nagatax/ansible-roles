@@ -1,0 +1,20 @@
+---
+##################################################
+# Define default values
+##################################################
+
+repository:
+  url: http://yum.mariadb.org/10.5.1/centos8-amd64
+  gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+
+required_packages:
+  - boost-devel
+  - python3-PyMySQL
+
+mariadb_packages:
+  - galera-4
+  - MariaDB-backup
+  - MariaDB-client
+  - MariaDB-common
+  - MariaDB-server
+  - rsync
