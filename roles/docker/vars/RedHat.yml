@@ -3,7 +3,23 @@
 # Define default values
 ##################################################
 
-required_packages:
-  - net-tools
+old_packages:
+  - docker
+  - docker-client
+  - docker-client-latest
+  - docker-common
+  - docker-latest
+  - docker-latest-logrotate
+  - docker-logrotate
+  - docker-engine
 
-docker_package: docker
+repository: https://download.docker.com/linux/centos/docker-ce.repo
+
+docker_packages:
+  - docker-ce
+  - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+
+docker_compose:
+  url: https://github.com/docker/compose/releases/download/1.25.4/docker-compose-Linux-x86_64
+  checksum: sha256:542e93b1d5106d2769b325f60ba9a0ba087bb96e30dc2c1cb026f0cb642e9aed
+
