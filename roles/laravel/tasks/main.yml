@@ -25,7 +25,7 @@
 
 - name: laravelのセットアップ
   shell: |
-    ~/.config/composer/vendor/bin/laravel new
+    ~/.composer/vendor/bin/laravel new
     chmod +w storage bootstrap/cache
   args:
     chdir: "{{ document_root }}"
