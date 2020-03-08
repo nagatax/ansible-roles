@@ -5,7 +5,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "centos/8"
+  config.vm.box = "bento/centos-8"
+  #config.vm.box = "centos/8"
   #config.vm.box = "ubuntu/bionic64"
 
   # The settings within config.ssh relate to configuring how Vagrant will access
@@ -77,10 +78,8 @@ Vagrant.configure("2") do |config|
       #sudo yum update -y
       #sudo yum install python3 -y
       #pip3 install ansible
-      ### elfutils-libelf-develはVirtualBox Guest Additionsのインストールに必要である
-      #sudo yum install elfutils-libelf-devel -y
       #cd /vagrant ; /usr/local/bin/ansible-playbook -i hosts site_common.yml --tags=packages -vvv
-      cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=nginx -vvv
+      cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=mysql -vvv
 
       ##### Ubuntu
       #sudo apt update && sudo apt upgrade -y
