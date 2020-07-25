@@ -12,6 +12,7 @@ AnsibAnsibleまとめたものです。
 
 ```bash
 # 全てのロールを実行
+ansible-playbook -i hosts site_common.yml
 ansible-playbook -i hosts site.yml
 
 # ロール単位で実行
