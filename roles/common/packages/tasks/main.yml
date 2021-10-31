@@ -3,12 +3,20 @@
 # Define tasks
 ##################################################
 
+- rpm_key:
+    state: present
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8
+
 - name: Import epel repository
   yum:
     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
     state: latest
     update_cache: yes
   when: ansible_os_family == "RedHat"
+
+- rpm_key:
+    state: present
+    key: https://rpms.remirepo.net/RPM-GPG-KEY-remi2018
 
 - name: Import remi repository
   yum:
