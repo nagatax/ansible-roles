@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
-    web.vm.network "private_network", ip: "192.168.34.50"
+    # web.vm.network "private_network", ip: "192.168.34.50"
 
     # Share an additional folder to the guest VM. The first argument is
     # the path on the host to the actual folder. The second argument is
@@ -40,24 +40,24 @@ Vagrant.configure("2") do |config|
 
     # USE default type
     web.vm.synced_folder "./", "/vagrant", type: "virtualbox"
-    #web.vm.synced_folder "./webapp", "/var/www/html", create: true, type:"virtualbox"
+    # web.vm.synced_folder "./webapp", "/var/www/html", create: true, type:"virtualbox"
 
     # USE NFS
-    #web.vm.synced_folder "./", "/vagrant", type: "nfs"
-    #web.vm.synced_folder "./webapp", "/var/www/html", create: true, type:"nfs"
+    # web.vm.synced_folder "./", "/vagrant", type: "nfs"
+    # web.vm.synced_folder "./webapp", "/var/www/html", create: true, type:"nfs"
 
     # USE rsync
-    #web.vm.synced_folder "./", "/vagrant", type: "rsync"
-    web.vm.synced_folder "./webapp", "/var/www/html",type: "rsync",
-    rsync__args: ["--verbose", "--archive", "--delete", "-z", "--copy-links"],
-    rsync__exclude: [
-      ".git/",
-      "node_modules/",
-      "./storage/debugbar",
-      "./storage/framework",
-      "./storage/logs",
-      "./vendor",
-    ]
+    # web.vm.synced_folder "./", "/vagrant", type: "rsync"
+    # web.vm.synced_folder "./webapp", "/var/www/html",type: "rsync",
+    # rsync__args: ["--verbose", "--archive", "--delete", "-z", "--copy-links"],
+    # rsync__exclude: [
+    #   ".git/",
+    #   "node_modules/",
+    #   "./storage/debugbar",
+    #   "./storage/framework",
+    #   "./storage/logs",
+    #   "./vendor",
+    # ]
 
     # Provider-specific configuration so you can fine-tune various
     # backing providers for Vagrant. These expose provider-specific options.
@@ -75,16 +75,21 @@ Vagrant.configure("2") do |config|
     # Provision
     web.vm.provision "shell", inline: <<-SHELL
       ##### CentOS
-      #sudo yum update -y
-      #sudo yum install python3 -y
-      #pip3 install ansible
-      #cd /vagrant ; /usr/local/bin/ansible-playbook -i hosts site_common.yml --tags=packages -vvv
-      cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=mysql -vvv
+      # Install the ansible
+      sudo dnf update -y
+      sudo dnf install python3 -y
+      sudo python3 -m pip install --upgrade pip
+      pip3 install ansible --user
+      # Install applications
+      # cd /vagrant ; /usr/local/bin/ansible-playbook -i hosts site_common.yml --tags=packages -vvv
+      # cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=mysql -vvv
 
       ##### Ubuntu
-      #sudo apt update && sudo apt upgrade -y
-      #sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
-      #sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php
+      # Install the ansible
+      # sudo apt update && sudo apt upgrade -y
+      # Install applications
+      # sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_common.yml
+      # sudo apt install aptitude ansible -y && cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php
     SHELL
   end
 
