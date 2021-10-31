@@ -81,8 +81,8 @@ Vagrant.configure("2") do |config|
       sudo python3 -m pip install --upgrade pip
       pip3 install ansible --user
       # Install applications
-      # cd /vagrant ; /usr/local/bin/ansible-playbook -i hosts site_common.yml --tags=packages -vvv
-      # cd /vagrant && /usr/local/bin/ansible-playbook -i hosts site_web.yml --tags=mysql -vvv
+      # cd /vagrant ; ansible-playbook -i hosts site_common.yml --tags=packages -vvv
+      # cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=mysql -vvv
 
       ##### Ubuntu
       # Install the ansible
