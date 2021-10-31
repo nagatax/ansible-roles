@@ -5,7 +5,7 @@
 
 - name: Download go.
   get_url:
-    url: "https://dl.google.com/go/go{{ go_os }}-{{ go_arch }}.tar.gz"
+    url: "https://golang.org/dl/go{{ go_os }}-{{ go_arch }}.tar.gz"
     dest: /usr/local/src
     checksum: "{{ go_checksum }}"
 

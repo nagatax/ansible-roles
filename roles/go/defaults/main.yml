@@ -3,6 +3,6 @@
 # Define default values
 ##################################################
 
-go_os: 1.13.5.linux
+go_os: 1.17.2.linux
 go_arch: amd64
-go_checksum: sha256:512103d7ad296467814a6e3f635631bd35574cab3369a97a323c9a585ccaa569
+go_checksum: sha256:f242a9db6a0ad1846de7b6d94d507915d14062660616a61ef7c808a76e4f1676
