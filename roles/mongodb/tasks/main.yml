@@ -8,6 +8,7 @@
     copy:
       src: mongodb.repo
       dest: /etc/yum.repos.d/mongodb.repo
+      mode: '0644'
   when: ansible_os_family == "RedHat"
 
 - block:

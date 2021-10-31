@@ -3,7 +3,8 @@
 # Define tasks
 ##################################################
 
-- rpm_key:
+- name: Install GPG KEY for epel
+  rpm_key:
     state: present
     key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8
 
@@ -14,7 +15,8 @@
     update_cache: yes
   when: ansible_os_family == "RedHat"
 
-- rpm_key:
+- name: Install GPG KEY for remi
+  rpm_key:
     state: present
     key: https://rpms.remirepo.net/RPM-GPG-KEY-remi2018
 
