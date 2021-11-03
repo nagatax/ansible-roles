@@ -64,6 +64,7 @@
   copy:
     src: php.ini
     dest: /etc/opt/remi/php74/php.ini
+    mode: '0644'
   when: ansible_os_family == "RedHat"
 
 - name: Download a installer

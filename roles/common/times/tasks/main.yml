@@ -10,6 +10,7 @@
   copy:
     src: chrony.conf
     dest: /etc/chrony.conf
+    mode: '0644'
   when: ansible_os_family == "RedHat"
 
 - name: Start ntpd service and enable autostart

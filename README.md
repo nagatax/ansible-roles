@@ -1,20 +1,20 @@
-# Ansibleのロール集
+# ansible-roles
 
-## はじめに
+## Overview
 
-AnsibAnsibleまとめたものです。
+This project is collection of ansible roll.
 
-## 使用方法
+## How to use
 
-### Ansible Playbookの使用方法
+### How to use Ansible Playbook
 
-プロジェクトルートで下記を実行する。
+Execute below at project root.
 
 ```bash
-# 全てのロールを実行
+# execute all of rolls
 ansible-playbook -i hosts site_common.yml
 ansible-playbook -i hosts site.yml
 
-# ロール単位で実行
+# execute a role
 ansible-playbook -i hosts site.yml --tags [ロール名]
 ```
