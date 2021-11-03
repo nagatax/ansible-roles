@@ -16,9 +16,7 @@
   become_user: "{{ app_own_user }}"
 
 - name: ドキュメントルートのフォルダを削除
-  shell: |
-    rm -rf {{ document_root }}
-    chown -R {{ app_own_user }}:{{ app_own_user }} /var/www
+  command: rm -rf {{ document_root }} && chown -R {{ app_own_user }}:{{ app_own_user }} /var/www
   when: not is_laravel_folder.stat.exists
 
 - name: Laravel Installerのインストール
