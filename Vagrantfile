@@ -72,14 +72,14 @@ Vagrant.configure("2") do |config|
       vb.memory = "3072"
     end
 
-    # Provision
-    web.vm.provision "shell", inline: <<-SHELL
+    # Provision as vagrant user
+    web.vm.provision :vagrant_user, type: "shell", privileged: false, inline: <<-SHELL
       ##### CentOS
       # Install the ansible
       sudo dnf update -y
       sudo dnf install python3 -y
-      sudo python3 -m pip install --upgrade pip
-      pip3 install ansible --user
+      python3 -m pip install --upgrade --user pip
+      pip3 install --user ansible
       # Install applications
       # cd /vagrant ; ansible-playbook -i hosts site_common.yml --tags=packages -vvv
       # cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=mysql -vvv
