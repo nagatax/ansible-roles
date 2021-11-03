@@ -3,12 +3,10 @@
 # Define default values
 ##################################################
 
-required_packages:
-  - libmysqlclient-dev
-  - mariadb-client
-  - mariadb-server
-  - python3
-  - python3-pip
-  - python3-setuptools
-  - python3-dev
+mysql_service: "mysql"
+mysql_conf_dir: "/etc/mysql"
+mysql_confd_dir: "/etc/mysql/mysql.conf.d"
+
+mysql_packages:
+  - mysql-server
   - python3-pymysql

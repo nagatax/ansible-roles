@@ -8,8 +8,16 @@
     url: https://rpm.nodesource.com/setup_lts.x
     dest: ~/nodejs_setup
     mode: 0755
+  when: ansible_os_family == "RedHat"
 
-- name: Install a Composer
+- name: Download a installer
+  get_url:
+    url: https://deb.nodesource.com/setup_lts.x
+    dest: ~/nodejs_setup
+    mode: 0755
+  when: ansible_os_family == "Debian"
+
+- name: Install a nodejs
   command: ~/nodejs_setup
 
 - name: Install NodeJS

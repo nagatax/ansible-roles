@@ -3,87 +3,91 @@
 # Define tasks
 ##################################################
 
+# 環境別の変数の読み込み
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Install MySQLDB
+  package:
+    name: "{{ mysql_packages }}"
+    state: present
+
+- name: Enable MySQLDB service
+  systemd:
+    name: "{{ mysql_service }}"
+    state: restarted
+    enabled: yes
+
+# - name: get root password
+#   shell: "grep 'A temporary password is generated for root@localhost' /var/log/mysqld.log | awk -F ' ' '{print $(NF)}'"
+#   register: root_password
+
+# - name: update expired root user password
+#   command: >
+#     mysql
+#     --user root
+#     --password={{ root_password.stdout }}
+#     --connect-expired-password
+#     --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_db_pass }}';"
+
+- name: update expired root user password
+  command: >
+    mysql
+    --user root
+    --connect-expired-password
+    --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_db_pass }}';"
+
+- name: set mysql_native_password
+  command: >
+    mysql
+    --user root
+    --password={{ mysql_root_db_pass }}
+    --connect-expired-password
+    --execute="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_db_pass }}';"
+
+- name: Copy my.cnf template
+  template:
+    src: my.cnf.j2
+    dest: "{{ mysql_conf_dir }}/my.cnf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy client.cnf template
+  template:
+    src: my.cnf.d/client.cnf.j2
+    dest: "{{ mysql_confd_dir }}/client.cnf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy mysql-default-authentication-plugin.cnf template
+  template:
+    src: my.cnf.d/mysql-default-authentication-plugin.cnf.j2
+    dest: "{{ mysql_confd_dir }}/mysql-default-authentication-plugin.cnf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy mysql-server.cnf template
+  template:
+    src: my.cnf.d/mysql-server.cnf.j2
+    dest: "{{ mysql_confd_dir }}/mysql-server.cnf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy .my.cnf template
+  template:
+    src: my.client.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart_mysqld
+
 - block:
-
-  - name: Install MySQLDB
-    yum:
-      name: "{{ mysql_packages }}"
-      state: present
-
-  - name: Enable MySQLDB service
-    systemd:
-      name: "{{ mysql_service }}"
-      state: restarted
-      enabled: yes
-
-  # - name: get root password
-  #   shell: "grep 'A temporary password is generated for root@localhost' /var/log/mysqld.log | awk -F ' ' '{print $(NF)}'"
-  #   register: root_password
-
-  # - name: update expired root user password
-  #   command: >
-  #     mysql
-  #     --user root
-  #     --password={{ root_password.stdout }}
-  #     --connect-expired-password
-  #     --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_db_pass }}';"
-  - name: update expired root user password
-    command: >
-      mysql
-      --user root
-      --connect-expired-password
-      --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_db_pass }}';"
-
-  - name: set mysql_native_password
-    command: >
-      mysql
-      --user root
-      --password={{ mysql_root_db_pass }}
-      --connect-expired-password
-      --execute="ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_db_pass }}';"
-
-  - name: Copy my.cnf template
-    template:
-      src: my.cnf.j2
-      dest: /etc/my.cnf
-      owner: root
-      group: root
-      mode: 0644
-
-  - name: Copy client.cnf template
-    template:
-      src: my.cnf.d/client.cnf.j2
-      dest: /etc/my.cnf.d/client.cnf
-      owner: root
-      group: root
-      mode: 0644
-
-  - name: Copy mysql-default-authentication-plugin.cnf template
-    template:
-      src: my.cnf.d/mysql-default-authentication-plugin.cnf.j2
-      dest: /etc/my.cnf.d/mysql-default-authentication-plugin.cnf
-      owner: root
-      group: root
-      mode: 0644
-
-  - name: Copy mysql-server.cnf template
-    template:
-      src: my.cnf.d/mysql-server.cnf.j2
-      dest: /etc/my.cnf.d/mysql-server.cnf
-      owner: root
-      group: root
-      mode: 0644
-
-  - name: Copy .my.cnf template
-    template:
-      src: my.client.cnf.j2
-      dest: /root/.my.cnf
-      owner: root
-      group: root
-      mode: 0644
-    notify:
-      - restart_mysqld
-
   - name: Open mysql port
     firewalld:
       zone: public
@@ -96,5 +100,18 @@
     systemd:
       name: firewalld
       state: restarted
-
   when: ansible_os_family == "RedHat"
+
+- block:
+  - name: Open mysql port
+    ufw:
+      rule: allow
+      port: "{{ mysql_port }}"
+      proto: tcp
+
+  - name: Restart a ufw
+    become: yes
+    systemd:
+      name: ufw
+      state: restarted
+  when: ansible_os_family == "Debian"

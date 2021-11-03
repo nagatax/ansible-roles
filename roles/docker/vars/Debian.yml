@@ -3,10 +3,9 @@
 # Define default values
 ##################################################
 
-required_packages:
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - software-properties-common
+docker_packages:
+  - docker-ce
 
-docker_package: docker-ce
+docker_compose:
+  url: https://github.com/docker/compose/releases/download/v2.1.0/docker-compose-linux-x86_64
+  checksum: sha256:90990e7268e954e7930353650d7bcf5a37d29c77925ea2066335367b5f27ec9a

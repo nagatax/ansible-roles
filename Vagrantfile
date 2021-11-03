@@ -89,8 +89,8 @@ Vagrant.configure("2") do |config|
       # sudo apt-get upgrade -y
       # sudo apt-get install aptitude ansible -y
       # Install applications
-      # cd /vagrant && ansible-playbook -i hosts site_common.yml
-      # cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php
+      # cd /vagrant && ansible-playbook -i hosts site_common.yml -vvv
+      # cd /vagrant && ansible-playbook -i hosts site_web.yml --tags=php -vvv
     SHELL
   end
 
