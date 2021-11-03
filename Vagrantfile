@@ -6,8 +6,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "bento/centos-8"
-  #config.vm.box = "centos/8"
-  #config.vm.box = "ubuntu/bionic64"
+  # config.vm.box = "ubuntu/focal64"
 
   # The settings within config.ssh relate to configuring how Vagrant will access
   # your machine over SSH. As with most Vagrant settings, the defaults are
