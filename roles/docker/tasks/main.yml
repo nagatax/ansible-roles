@@ -14,17 +14,9 @@
       name: "{{ item }}"
       state: absent
     with_items: "{{ old_packages }}"
-
   # Install the repository
   - name: Install the repository
     command: yum-config-manager --add-repo "{{ repository }}"
-
-  # Install Docker
-  - name: Install Docker
-    package:
-      name: "{{ item }}"
-      state: present
-    with_items: "{{ docker_packages }}"
 
   when: ansible_os_family == "RedHat"
 
@@ -36,9 +28,16 @@
       state: present
   - name: Add docker's repository.
     apt_repository:
-      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
       state: present
   when: ansible_os_family == "Debian"
+
+# Install Docker
+- name: Install Docker
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ docker_packages }}"
 
 # サービスの設定
 - name: Start Docker and enable autostart

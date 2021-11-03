@@ -1,7 +1,11 @@
 ---
 ##################################################
-# ロール変数の値を定義する
+# Define default values
 ##################################################
+
+mysql_service: "mysqld"
+mysql_conf_dir: "/etc"
+mysql_confd_dir: "/etc/my.cnf.d"
 
 mysql_packages:
   - mysql-common
@@ -9,5 +13,3 @@ mysql_packages:
   - mysql-libs
   - mysql-server
   - python3-PyMySQL
-
-mysql_conf_dir: "/etc/"

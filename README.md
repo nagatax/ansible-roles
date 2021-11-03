@@ -16,5 +16,5 @@ ansible-playbook -i hosts site_common.yml
 ansible-playbook -i hosts site.yml
 
 # execute a role
-ansible-playbook -i hosts site.yml --tags [ロール名]
+ansible-playbook -i hosts site.yml --tags [role name]
 ```

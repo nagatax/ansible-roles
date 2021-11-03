@@ -22,7 +22,7 @@
     get_url:
       url: "https://www.memcached.org/files/{{ version }}.tar.gz"
       dest: /usr/local/src/
-      checksum: "{{ checksum }}"
+      # checksum: "{{ checksum }}"
   - name: Install memcached
     shell: |
       tar -zxvf "{{ version }}.tar.gz"

@@ -12,11 +12,17 @@
   when: ansible_os_family == "RedHat"
 
 - block:
+  - name: Install a gnupg
+    package:
+      name: gnupg
+      state: present
   - name: Add key for MongoDB
-    command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+    apt_key:
+      url: https://www.mongodb.org/static/pgp/server-5.0.asc
+      state: present
   - name: Register MongoDB repository
     shell: |
-      echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+      echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
   when: ansible_os_family == "Debian"
 
 - name: Install MongoDB

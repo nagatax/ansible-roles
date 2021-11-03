@@ -6,33 +6,33 @@
 - name: Install PHP
   yum:
     name:
-      - php74
-      - php74-php-bcmath
-      - php74-php-cli
-      - php74-php-common
-      - php74-php-devel
-      - php74-php-json
-      - php74-php-mcrypt
-      - php74-php-mbstring
-      - php74-php-mysqlnd
-      - php74-php-opcache
-      - php74-php-openssl
-      - php74-php-pdo
-      - php74-php-pear
-      - php74-php-pecl-memcache
-      - php74-php-pecl-memcached
-      - php74-php-pecl-zip
-      - php74-php-pgsql
-      - php74-php-process
-      - php74-php-tokenizer
-      - php74-php-xml
+      - php81
+      - php81-php-bcmath
+      - php81-php-cli
+      - php81-php-common
+      - php81-php-devel
+      - php81-php-json
+      - php81-php-mcrypt
+      - php81-php-mbstring
+      - php81-php-mysqlnd
+      - php81-php-opcache
+      - php81-php-openssl
+      - php81-php-pdo
+      - php81-php-pear
+      - php81-php-pecl-memcache
+      - php81-php-pecl-memcached
+      - php81-php-pecl-zip
+      - php81-php-pgsql
+      - php81-php-process
+      - php81-php-tokenizer
+      - php81-php-xml
     state: present
-    enablerepo: "remi-php74,PowerTools"
+    enablerepo: "remi-php81,PowerTools"
   when: ansible_os_family == "RedHat"
 
 - name: Create a symbolic link
   file:
-    src: /usr/bin/php74
+    src: /usr/bin/php81
     dest: /usr/bin/php
     state: link
   when: ansible_os_family == "RedHat"
@@ -63,7 +63,7 @@
 - name: Copy custom php.ini
   copy:
     src: php.ini
-    dest: /etc/opt/remi/php74/php.ini
+    dest: /etc/opt/remi/php81/php.ini
     mode: '0644'
   when: ansible_os_family == "RedHat"
 

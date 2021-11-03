@@ -15,6 +15,10 @@
   become: yes
   become_user: "{{ app_own_user }}"
 
+- name: ドキュメントルートのフォルダを削除
+  command: rm -rf {{ document_root }} && chown -R {{ app_own_user }}:{{ app_own_user }} /var/www
+  when: not is_laravel_folder.stat.exists
+
 - name: Laravel Installerのインストール
   composer:
     command: require
@@ -22,23 +26,26 @@
     arguments: laravel/installer
   become: yes
   become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists
 
 - name: laravelのセットアップ
   shell: |
-    ~/.composer/vendor/bin/laravel new
+    ~/.config/composer/vendor/laravel/installer/bin/laravel new html
+    cd html
     chmod +w storage bootstrap/cache
   args:
-    chdir: "{{ document_root }}"
+    chdir: /var/www
   become: yes
   become_user: "{{ app_own_user }}"
   when: not is_laravel_folder.stat.exists and ansible_os_family == "RedHat"
 
 - name: laravelのセットアップ
   shell: |
-    ~/.composer/vendor/bin/laravel new
+    ~/.config/composer/vendor/laravel/installer/bin/laravel new html
+    cd html
     chmod +w storage bootstrap/cache
   args:
-    chdir: "{{ document_root }}"
+    chdir: /var/www
     warn: false
   become: yes
   become_user: "{{ app_own_user }}"
@@ -50,6 +57,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists
 
 - name: Copy .env to server's directory
   template:
@@ -58,6 +66,7 @@
     owner: "{{ app_own_user }}"
     group: "{{ app_own_user }}"
     mode: 0644
+  when: not is_laravel_folder.stat.exists
 
 - name: laravelのセットアップ2
   shell: |
@@ -78,7 +87,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isPhpCs
+  when: not is_laravel_folder.stat.exists and app_plugin.isPhpCs
 
 - name: PHP_CodeSniffer
   composer:
@@ -88,7 +97,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isPhpCsniffer
+  when: not is_laravel_folder.stat.exists and app_plugin.isPhpCsniffer
 
 - name: PHP Mess Detector
   composer:
@@ -98,7 +107,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isPhpmd
+  when: not is_laravel_folder.stat.exists and app_plugin.isPhpmd
 
 - name: Install Horizon
   composer:
@@ -107,7 +116,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isHorizon
+  when: not is_laravel_folder.stat.exists and app_plugin.isHorizon
 
 - name: Install laravel-mix
   shell: |
@@ -115,7 +124,7 @@
   args:
     chdir: "{{ document_root }}"
   become: yes
-  when: app_plugin.isLaravelMix
+  when: not is_laravel_folder.stat.exists and app_plugin.isLaravelMix
 
 - name: Install laravel-debugbar
   composer:
@@ -125,7 +134,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isLaravelDebugbar
+  when: not is_laravel_folder.stat.exists and app_plugin.isLaravelDebugbar
 
 - name: Install laravel helper
   composer:
@@ -135,7 +144,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isIdeHelper
+  when: not is_laravel_folder.stat.exists and app_plugin.isIdeHelper
 
 - name: create helper file
   command: php artisan ide-helper:generate
@@ -143,7 +152,7 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isIdeHelper
+  when: not is_laravel_folder.stat.exists and app_plugin.isIdeHelper
 
 - name: Install Laravel Telescope
   composer:
@@ -153,7 +162,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isLaravelTelescope
+  when: not is_laravel_folder.stat.exists and app_plugin.isLaravelTelescope
 
 - name: アセットの公開
   shell: |
@@ -163,7 +172,7 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isLaravelTelescope
+  when: not is_laravel_folder.stat.exists and app_plugin.isLaravelTelescope
 
 - name: Install predis
   composer:
@@ -173,7 +182,7 @@
     working_dir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
-  when: app_plugin.isPredis
+  when: not is_laravel_folder.stat.exists and app_plugin.isPredis
 
 - name: Generate a key
   command: php artisan key:generate
@@ -181,6 +190,7 @@
     chdir: "{{ document_root }}"
   become: yes
   become_user: "{{ app_own_user }}"
+  when: not is_laravel_folder.stat.exists
 
 - name: フォルダ権限の変更
   file:
@@ -188,7 +198,7 @@
     owner: apache
     group: apache
   become: yes
-  when: ansible_os_family == "RedHat"
+  when: not is_laravel_folder.stat.exists and ansible_os_family == "RedHat"
 
 - name: フォルダ権限の変更
   file:
@@ -196,4 +206,4 @@
     owner: www-data
     group: www-data
   become: yes
-  when: ansible_os_family == "Debian"
+  when: not is_laravel_folder.stat.exists and ansible_os_family == "Debian"

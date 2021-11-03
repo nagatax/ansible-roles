@@ -28,7 +28,7 @@
       state: present
   - name: Add jenkins's repository.
     apt_repository:
-      repo: "deb http://pkg.jenkins.io/debian-stable binary/"
+      repo: "deb https://pkg.jenkins.io/debian-stable binary/"
       state: present
       filename: jenkins
   when: ansible_os_family == "Debian"
@@ -45,6 +45,7 @@
   package:
     name: "{{ jenkins_package }}"
     state: present
+    update_cache: yes
 
 # サービスの設定
 - name: Start jenkins and Enable autostart

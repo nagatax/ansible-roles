@@ -4,6 +4,5 @@
 ##################################################
 
 # Install version
-version: memcached-1.5.14
-checksum: sha256:9c5bdf29a780fb6c6f7c9eaaeeda0583efdf663193758c3e316c969a510af2a9
-
+version: memcached-1.6.12
+# checksum: sha256:9c5bdf29a780fb6c6f7c9eaaeeda0583efdf663193758c3e316c969a510af2a9

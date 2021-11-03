@@ -7,5 +7,5 @@
   get_url:
     url: "https://github.com/mailhog/MailHog/releases/download/{{ mailhog_version }}/{{ mailhog_package }}"
     dest: /usr/local/bin/mailhog
-    checksum: "{{ mailhog_checksum }}"
+    # checksum: "{{ mailhog_checksum }}"
     mode: 0755
