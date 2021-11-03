@@ -3,6 +3,6 @@
 # Define default values
 ##################################################
 
-mailhog_version: v1.0.0
+mailhog_version: v1.0.1
 mailhog_package: MailHog_linux_amd64
-mailhog_checksum: sha256:ba921e04438e176c474d533447ae64707ffcdd1230f0153f86cb188d348f25c0
+# mailhog_checksum: sha256:ba921e04438e176c474d533447ae64707ffcdd1230f0153f86cb188d348f25c0

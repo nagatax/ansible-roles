@@ -40,5 +40,3 @@
       tags: ruby
     - name: yarn
       tags: yarn
-    - name: deploy
-      tags: deploy
